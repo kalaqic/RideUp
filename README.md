@@ -44,7 +44,7 @@ A beautiful, minimalist Flutter MVP for a bike rental system with gamification e
 1. **Prerequisites**
    - Flutter SDK (3.0.0 or higher)
    - Dart SDK
-   - Android Studio / Xcode (for mobile development)
+   - Xcode / VSCode (for mobile development)
 
 2. **Setup**
    ```bash
