@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../utils/app_theme.dart';
 import '../models/models.dart';
@@ -121,7 +120,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
             children: [
               // Header
               Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
                 child: Column(
                   children: [
                     Text(
@@ -152,59 +151,6 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                           label: 'Skupne točke',
                         ),
                       ],
-                    ),
-                  ],
-                ),
-              ),
-              // Reward explanation
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: AppTheme.success.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: AppTheme.success.withValues(alpha: 0.3),
-                    width: 1,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: AppTheme.success.withValues(alpha: 0.2),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.card_giftcard,
-                        color: AppTheme.success,
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Posebna nagrada!',
-                            style: AppTheme.bodyLarge.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.success,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Dokončajte 3 dosežke in prejmite 1 mesec brezplačne uporabe koles!',
-                            style: AppTheme.bodySmall.copyWith(
-                              color: AppTheme.textMedium,
-                              height: 1.4,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),
@@ -247,8 +193,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           children: [
             Text(
               value,
-              style: GoogleFonts.inter(
-                fontSize: 28,
+              style: AppTheme.displaySmall.copyWith(
                 fontWeight: FontWeight.w500,
                 color: AppTheme.primaryColor,
               ),
@@ -286,16 +231,24 @@ class _AchievementsScreenState extends State<AchievementsScreen>
       onTap: () => _showAchievementDetails(achievement),
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: achievement.isUnlocked ? 0.9 : 0.5),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: achievement.isUnlocked
-                ? achievement.color.withValues(alpha: 0.3)
-                : Colors.grey.withValues(alpha: 0.2),
-            width: 1,
-          ),
-        ),
+        decoration: achievement.isUnlocked
+            ? BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: achievement.color.withOpacity(0.3),
+                  width: 2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: achievement.color.withOpacity(0.15),
+                    offset: const Offset(0, 4),
+                    blurRadius: 12,
+                    spreadRadius: 0,
+                  ),
+                ],
+              )
+            : AppTheme.neomorphicFlat(),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -307,7 +260,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                   height: 56,
                   decoration: BoxDecoration(
                     color: achievement.isUnlocked
-                        ? achievement.color.withOpacity(0.1)
+                        ? achievement.color.withOpacity(0.15)
                         : Colors.grey.withOpacity(0.1),
                     shape: BoxShape.circle,
                   ),
@@ -453,10 +406,10 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
+              color: Colors.black.withOpacity(0.1),
+              offset: const Offset(0, -2),
+              blurRadius: 10,
               spreadRadius: 0,
-              offset: const Offset(0, -5),
             ),
           ],
         ),
@@ -483,10 +436,6 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                   decoration: BoxDecoration(
                     color: achievement.color.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: achievement.color.withValues(alpha: 0.3),
-                      width: 3,
-                    ),
                   ),
                   child: Icon(
                     achievement.icon,
@@ -496,8 +445,10 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 ),
                 const SizedBox(height: 24),
                 // Achievement title
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 8,
                   children: [
                     Text(
                       achievement.title,
@@ -506,15 +457,16 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                         fontWeight: FontWeight.w500,
                         color: AppTheme.titleBlue,
                       ),
+                      textAlign: TextAlign.center,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    if (achievement.isUnlocked) ...[
-                      const SizedBox(width: 8),
+                    if (achievement.isUnlocked)
                       Icon(
                         Icons.verified,
                         size: 28,
                         color: achievement.color,
                       ),
-                    ],
                   ],
                 ),
                 const SizedBox(height: 16),
@@ -531,7 +483,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: AppTheme.pastelLavender.withValues(alpha: 0.3),
+                    color: AppTheme.pastelLavender.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
@@ -583,12 +535,6 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       ? AppTheme.success.withValues(alpha: 0.1)
                       : Colors.grey.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                      color: achievement.isUnlocked 
-                        ? AppTheme.success.withValues(alpha: 0.3)
-                        : Colors.grey.withValues(alpha: 0.3),
-                      width: 1,
-                    ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

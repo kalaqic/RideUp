@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../utils/app_theme.dart';
 import 'map_screen.dart';
@@ -130,26 +129,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                     ),
                     const SizedBox(height: 48),
-                    SizedBox(
+                    Container(
                       width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: _onNextPressed,
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 48,
-                            vertical: 20,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Text(
-                          _currentPage == _pages.length - 1
-                              ? 'Začnimo'
-                              : 'Nadaljuj',
-                          style: AppTheme.bodyMedium.copyWith(
-                            letterSpacing: 1.5,
-                            fontWeight: FontWeight.w500,
+                      height: 56,
+                      decoration: AppTheme.neomorphicRaised(borderRadius: 16),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: _onNextPressed,
+                          borderRadius: BorderRadius.circular(16),
+                          child: Center(
+                            child: Text(
+                              _currentPage == _pages.length - 1
+                                  ? 'Začnimo'
+                                  : 'Nadaljuj',
+                              style: AppTheme.bodyMedium.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: AppTheme.primaryColor,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -173,12 +171,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Container(
             width: 120,
             height: 120,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: AppTheme.primaryColor.withOpacity(0.2),
-                width: 1.5,
-              ),
+            decoration: AppTheme.neomorphicRaised(
+              borderRadius: 60,
             ),
             child: Icon(
               data.icon,
@@ -190,11 +184,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Text(
             data.title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.playfairDisplay(
-              fontSize: 42,
-              fontWeight: FontWeight.w300,
-              letterSpacing: 2,
-              height: 1.2,
+            style: AppTheme.titleLarge.copyWith(
               color: AppTheme.textDark,
             ),
           ),
@@ -203,8 +193,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             data.subtitle,
             style: AppTheme.bodyLarge.copyWith(
               color: AppTheme.primaryColor,
-              letterSpacing: 2,
-              fontWeight: FontWeight.w300,
+              fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(height: 32),
@@ -213,8 +202,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             textAlign: TextAlign.center,
             style: AppTheme.bodyMedium.copyWith(
               color: AppTheme.textMedium,
-              height: 1.8,
-              letterSpacing: 0.5,
+              height: 1.6,
             ),
           ),
         ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../utils/app_theme.dart';
 import '../models/models.dart';
 import 'ride_screen.dart';
@@ -83,15 +82,18 @@ class _QRScanScreenState extends State<QRScanScreen>
             children: [
               // Header
               Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
                 child: Row(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () => Navigator.pop(context),
-                      style: IconButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        padding: const EdgeInsets.all(12),
+                    Container(
+                      decoration: AppTheme.neomorphicRaised(borderRadius: 12),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () => Navigator.pop(context),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          padding: const EdgeInsets.all(12),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -101,10 +103,8 @@ class _QRScanScreenState extends State<QRScanScreen>
                         children: [
                           Text(
                             'Skeniraj QR kodo',
-                            style: GoogleFonts.playfairDisplay(
+                            style: AppTheme.titleSmall.copyWith(
                               fontSize: 28,
-                              fontWeight: FontWeight.w300,
-                              letterSpacing: 1,
                               color: AppTheme.titleBlue,
                             ),
                           ),
@@ -128,14 +128,7 @@ class _QRScanScreenState extends State<QRScanScreen>
                     child: AspectRatio(
                       aspectRatio: 1,
                       child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          border: Border.all(
-                            color: AppTheme.primaryColor.withOpacity(0.2),
-                            width: 1,
-                          ),
-                        ),
+                        decoration: AppTheme.neomorphicRaised(borderRadius: 24),
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
@@ -289,15 +282,23 @@ class _QRScanScreenState extends State<QRScanScreen>
                       ),
                     ),
                     const SizedBox(height: 32),
-                    SizedBox(
+                    Container(
                       width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: _isScanning ? null : _simulateScan,
-                        child: Text(
-                          'Simuliraj skeniranje',
-                          style: AppTheme.bodyMedium.copyWith(
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1,
+                      height: 56,
+                      decoration: AppTheme.neomorphicRaised(borderRadius: 16),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: _isScanning ? null : _simulateScan,
+                          borderRadius: BorderRadius.circular(16),
+                          child: Center(
+                            child: Text(
+                              'Simuliraj skeniranje',
+                              style: AppTheme.bodyMedium.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: AppTheme.primaryColor,
+                              ),
+                            ),
                           ),
                         ),
                       ),

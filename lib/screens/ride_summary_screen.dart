@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../utils/app_theme.dart';
 import '../models/models.dart';
 import 'achievements_screen.dart';
@@ -107,10 +106,7 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
                       const SizedBox(height: 16),
                       Text(
                         'Vožnja dokončana',
-                        style: GoogleFonts.playfairDisplay(
-                          fontSize: 42,
-                          fontWeight: FontWeight.w300,
-                          letterSpacing: 2,
+                        style: AppTheme.titleLarge.copyWith(
                           color: AppTheme.titleBlue,
                         ),
                       ),
@@ -180,29 +176,41 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
                   children: [
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation, secondaryAnimation) =>
-                                  const AchievementsScreen(),
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                              transitionDuration: const Duration(milliseconds: 300),
+                      child: Container(
+                        height: 56,
+                        decoration: AppTheme.neomorphicButton(
+                          color: AppTheme.primaryColor,
+                          borderRadius: 16,
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation, secondaryAnimation) =>
+                                      const AchievementsScreen(),
+                                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: child,
+                                    );
+                                  },
+                                  transitionDuration: const Duration(milliseconds: 300),
+                                ),
+                              );
+                            },
+                            borderRadius: BorderRadius.circular(16),
+                            child: Center(
+                              child: Text(
+                                'Poglej dosežke',
+                                style: AppTheme.bodyMedium.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
-                          );
-                        },
-                        child: Text(
-                          'Poglej dosežke',
-                          style: AppTheme.bodyMedium.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1,
                           ),
                         ),
                       ),
@@ -210,29 +218,39 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
                     const SizedBox(height: 12),
                     SizedBox(
                       width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder: (context, animation, secondaryAnimation) =>
-                                  const MapScreen(),
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                              transitionDuration: const Duration(milliseconds: 300),
+                      child: Container(
+                        height: 56,
+                        decoration: AppTheme.neomorphicRaised(borderRadius: 16),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                PageRouteBuilder(
+                                  pageBuilder: (context, animation, secondaryAnimation) =>
+                                      const MapScreen(),
+                                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                    return FadeTransition(
+                                      opacity: animation,
+                                      child: child,
+                                    );
+                                  },
+                                  transitionDuration: const Duration(milliseconds: 300),
+                                ),
+                                (route) => false,
+                              );
+                            },
+                            borderRadius: BorderRadius.circular(16),
+                            child: Center(
+                              child: Text(
+                                'Nazaj na zemljevid',
+                                style: AppTheme.bodyMedium.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.primaryColor,
+                                ),
+                              ),
                             ),
-                            (route) => false,
-                          );
-                        },
-                        child: Text(
-                          'Nazaj na zemljevid',
-                          style: AppTheme.bodyMedium.copyWith(
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1,
                           ),
                         ),
                       ),
@@ -256,14 +274,7 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
   }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: color.withOpacity(0.2),
-          width: 1,
-        ),
-      ),
+      decoration: AppTheme.neomorphicRaised(borderRadius: 12),
       child: Row(
         children: [
           Container(
@@ -290,8 +301,7 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
                   children: [
                     Text(
                       value,
-                      style: GoogleFonts.inter(
-                        fontSize: 24,
+                      style: AppTheme.bodyLarge.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
                     ),

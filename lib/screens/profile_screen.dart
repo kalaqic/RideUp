@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../utils/app_theme.dart';
+import '../utils/auth_service.dart';
 import '../models/models.dart';
 import '../data/mock_data.dart';
 import '../widgets/bottom_nav.dart';
 import 'map_screen.dart';
 import 'achievements_screen.dart';
+import 'login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -18,6 +19,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   final UserProfile profile = MockData.getUserProfile();
+  final AuthService _authService = AuthService();
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   int _selectedIndex = 2;
@@ -103,7 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 // Profile header
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.all(32),
+                    padding: const EdgeInsets.fromLTRB(32, 40, 32, 32),
                     child: Column(
                       children: [
                         // Avatar
@@ -144,6 +146,81 @@ class _ProfileScreenState extends State<ProfileScreen>
                             letterSpacing: 0.5,
                           ),
                         ),
+                        const SizedBox(height: 32),
+                        // Logout button
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text(
+                                    'Odjava',
+                                    style: AppTheme.bodyLarge.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  content: Text(
+                                    'Ali ste prepričani, da se želite odjaviti?',
+                                    style: AppTheme.bodyMedium,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text(
+                                        'Prekliči',
+                                        style: AppTheme.bodyMedium.copyWith(
+                                          color: AppTheme.textMedium,
+                                        ),
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        _authService.logout();
+                                        Navigator.pop(context);
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation, secondaryAnimation) =>
+                                                const LoginScreen(),
+                                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                              return FadeTransition(
+                                                opacity: animation,
+                                                child: child,
+                                              );
+                                            },
+                                            transitionDuration: const Duration(milliseconds: 300),
+                                          ),
+                                          (route) => false,
+                                        );
+                                      },
+                                      child: Text(
+                                        'Odjavi se',
+                                        style: AppTheme.bodyMedium.copyWith(
+                                          color: AppTheme.error,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            icon: const Icon(Icons.logout, size: 20),
+                            label: Text(
+                              'Odjavi se',
+                              style: AppTheme.bodyMedium.copyWith(
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: AppTheme.error,
+                              side: const BorderSide(color: AppTheme.error),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -154,14 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Container(
                       padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: AppTheme.primaryColor.withOpacity(0.1),
-                          width: 1,
-                        ),
-                      ),
+                      decoration: AppTheme.neomorphicRaised(borderRadius: 20),
                       child: Column(
                         children: [
                           Row(
@@ -291,7 +361,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         const SizedBox(height: 8),
         Text(
           value,
-          style: GoogleFonts.inter(
+          style: AppTheme.bodyLarge.copyWith(
             fontSize: 20,
             fontWeight: FontWeight.w500,
             color: AppTheme.textDark,
@@ -316,14 +386,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.7),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-          color: AppTheme.primaryColor.withOpacity(0.1),
-          width: 1,
-        ),
-      ),
+        decoration: AppTheme.neomorphicRaised(borderRadius: 12),
       child: Row(
         children: [
           Container(
@@ -436,10 +499,10 @@ class _ProfileScreenState extends State<ProfileScreen>
           borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
+              color: Colors.black.withOpacity(0.1),
+              offset: const Offset(0, -2),
+              blurRadius: 10,
               spreadRadius: 0,
-              offset: const Offset(0, -5),
             ),
           ],
         ),
@@ -480,7 +543,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: AppTheme.pastelLavender.withValues(alpha: 0.3),
+                    color: AppTheme.pastelLavender.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
@@ -590,17 +653,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppTheme.primaryColor.withValues(alpha: 0.1),
-                        AppTheme.primaryColor.withValues(alpha: 0.05),
-                      ],
-                    ),
+                    color: AppTheme.primaryColor.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: AppTheme.primaryColor.withValues(alpha: 0.2),
-                      width: 1,
-                    ),
                   ),
                   child: Column(
                     children: [
@@ -645,10 +699,6 @@ class _ProfileScreenState extends State<ProfileScreen>
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: color.withValues(alpha: 0.2),
-          width: 1,
-        ),
       ),
       child: Column(
         children: [

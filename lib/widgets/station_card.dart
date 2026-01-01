@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../utils/app_theme.dart';
 import '../models/models.dart';
 
@@ -23,16 +22,9 @@ class StationCard extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         width: 180,
         padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(isSelected ? 0.95 : 0.8),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSelected
-                ? AppTheme.primaryColor
-                : AppTheme.primaryColor.withOpacity(0.2),
-            width: isSelected ? 2 : 1,
-          ),
-        ),
+        decoration: isSelected
+            ? AppTheme.neomorphicPressed()
+            : AppTheme.neomorphicRaised(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,8 +34,7 @@ class StationCard extends StatelessWidget {
               children: [
                 Text(
                   station.name,
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
+                  style: AppTheme.bodyMedium.copyWith(
                     fontWeight: FontWeight.w500,
                     color: AppTheme.textDark,
                   ),

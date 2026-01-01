@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../utils/app_theme.dart';
 import '../models/models.dart';
 import 'ride_summary_screen.dart';
@@ -135,15 +134,12 @@ class _RideScreenState extends State<RideScreen>
             children: [
               // Header
               Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
                 child: Column(
                   children: [
                     Text(
                       'Vozim',
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: 42,
-                        fontWeight: FontWeight.w300,
-                        letterSpacing: 2,
+                      style: AppTheme.titleLarge.copyWith(
                         color: AppTheme.titleBlue,
                       ),
                     ),
@@ -184,12 +180,8 @@ class _RideScreenState extends State<RideScreen>
                       Container(
                         width: 200,
                         height: 200,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppTheme.primaryColor.withValues(alpha: 0.2),
-                            width: 2,
-                          ),
+                        decoration: AppTheme.neomorphicRaised(
+                          borderRadius: 100,
                         ),
                         child: Center(
                           child: Column(
@@ -197,10 +189,8 @@ class _RideScreenState extends State<RideScreen>
                             children: [
                               Text(
                                 _formatTime(_secondsElapsed),
-                                style: GoogleFonts.inter(
-                                  fontSize: 48,
-                                  fontWeight: FontWeight.w200,
-                                  letterSpacing: 2,
+                                style: AppTheme.displayLarge.copyWith(
+                                  fontWeight: FontWeight.w300,
                                 ),
                               ),
                               Text(
@@ -247,14 +237,7 @@ class _RideScreenState extends State<RideScreen>
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.8),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: AppTheme.primaryColor.withValues(alpha: 0.1),
-                    width: 1,
-                  ),
-                ),
+                decoration: AppTheme.neomorphicRaised(borderRadius: 16),
                 child: Row(
                   children: [
                     Icon(
@@ -288,31 +271,32 @@ class _RideScreenState extends State<RideScreen>
               // End ride button
               Padding(
                 padding: const EdgeInsets.all(24),
-                child: SizedBox(
+                child: Container(
                   width: double.infinity,
                   height: 64,
-                  child: ElevatedButton(
-                    onPressed: _endRide,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.error,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.stop, color: Colors.white),
-                        const SizedBox(width: 12),
-                        Text(
-                          'Zaključi vožnjo',
-                          style: AppTheme.bodyLarge.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1,
+                  decoration: AppTheme.neomorphicButton(
+                    color: AppTheme.error,
+                    borderRadius: 16,
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: _endRide,
+                      borderRadius: BorderRadius.circular(16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.stop, color: Colors.white),
+                          const SizedBox(width: 12),
+                          Text(
+                            'Zaključi vožnjo',
+                            style: AppTheme.bodyLarge.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -344,9 +328,8 @@ class _RideScreenState extends State<RideScreen>
           children: [
             Text(
               value,
-              style: GoogleFonts.inter(
-                fontSize: 28,
-                fontWeight: FontWeight.w300,
+              style: AppTheme.displaySmall.copyWith(
+                fontWeight: FontWeight.w400,
               ),
             ),
             const SizedBox(width: 4),
