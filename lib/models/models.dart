@@ -78,6 +78,9 @@ class UserProfile {
   final List<Ride> recentRides;
   final List<Achievement> achievements;
   final String memberSince;
+  final bool hasActiveSubscription;
+  final DateTime? subscriptionRenewalDate;
+  final bool? subscriptionPurchasedWithPoints; // null if no subscription, true if purchased with points, false if with achievements
 
   UserProfile({
     required this.name,
@@ -89,5 +92,8 @@ class UserProfile {
     required this.recentRides,
     required this.achievements,
     required this.memberSince,
+    this.hasActiveSubscription = false,
+    this.subscriptionRenewalDate,
+    this.subscriptionPurchasedWithPoints,
   });
 }

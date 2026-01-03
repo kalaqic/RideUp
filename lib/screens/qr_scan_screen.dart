@@ -153,19 +153,19 @@ class _QRScanScreenState extends State<QRScanScreen>
                                             )
                                           : BorderSide.none,
                                       bottom: !isTop
-                                          ? BorderSide(
+                                          ? const BorderSide(
                                               color: AppTheme.primaryColor,
                                               width: 3,
                                             )
                                           : BorderSide.none,
                                       left: isLeft
-                                          ? BorderSide(
+                                          ? const BorderSide(
                                               color: AppTheme.primaryColor,
                                               width: 3,
                                             )
                                           : BorderSide.none,
                                       right: !isLeft
-                                          ? BorderSide(
+                                          ? const BorderSide(
                                               color: AppTheme.primaryColor,
                                               width: 3,
                                             )
@@ -201,7 +201,7 @@ class _QRScanScreenState extends State<QRScanScreen>
                                         boxShadow: [
                                           BoxShadow(
                                             color: AppTheme.primaryColor
-                                                .withOpacity(0.5),
+                                                .withValues(alpha: 0.5),
                                             blurRadius: 8,
                                             spreadRadius: 2,
                                           ),
@@ -219,7 +219,7 @@ class _QRScanScreenState extends State<QRScanScreen>
                                   Icon(
                                     Icons.qr_code_2,
                                     size: 120,
-                                    color: AppTheme.primaryColor.withOpacity(0.2),
+                                    color: AppTheme.primaryColor.withValues(alpha: 0.2),
                                   ),
                                   const SizedBox(height: 24),
                                   Text(

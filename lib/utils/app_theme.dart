@@ -62,13 +62,13 @@ class AppTheme {
       borderRadius: BorderRadius.circular(borderRadius),
       boxShadow: [
         BoxShadow(
-          color: Colors.white.withOpacity(0.7),
+          color: Colors.white.withValues(alpha: 0.7),
           offset: const Offset(-4, -4),
           blurRadius: 8,
           spreadRadius: 0,
         ),
         BoxShadow(
-          color: Colors.black.withOpacity(0.15),
+          color: Colors.black.withValues(alpha: 0.15),
           offset: const Offset(4, 4),
           blurRadius: 8,
           spreadRadius: 0,
@@ -87,13 +87,13 @@ class AppTheme {
       borderRadius: BorderRadius.circular(borderRadius),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.15),
+          color: Colors.black.withValues(alpha: 0.15),
           offset: const Offset(2, 2),
           blurRadius: 4,
           spreadRadius: 0,
         ),
         BoxShadow(
-          color: Colors.white.withOpacity(0.7),
+          color: Colors.white.withValues(alpha: 0.7),
           offset: const Offset(-2, -2),
           blurRadius: 4,
           spreadRadius: 0,
@@ -112,13 +112,13 @@ class AppTheme {
       borderRadius: BorderRadius.circular(borderRadius),
       boxShadow: [
         BoxShadow(
-          color: Colors.white.withOpacity(0.5),
+          color: Colors.white.withValues(alpha: 0.5),
           offset: const Offset(-3, -3),
           blurRadius: 6,
           spreadRadius: 0,
         ),
         BoxShadow(
-          color: Colors.black.withOpacity(0.1),
+          color: Colors.black.withValues(alpha: 0.1),
           offset: const Offset(3, 3),
           blurRadius: 6,
           spreadRadius: 0,
@@ -139,7 +139,7 @@ class AppTheme {
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withValues(alpha: 0.2),
             offset: const Offset(2, 2),
             blurRadius: 4,
             spreadRadius: 0,
@@ -152,13 +152,13 @@ class AppTheme {
       borderRadius: BorderRadius.circular(borderRadius),
       boxShadow: [
         BoxShadow(
-          color: Colors.white.withOpacity(0.3),
+          color: Colors.white.withValues(alpha: 0.3),
           offset: const Offset(-3, -3),
           blurRadius: 6,
           spreadRadius: 0,
         ),
         BoxShadow(
-          color: Colors.black.withOpacity(0.2),
+          color: Colors.black.withValues(alpha: 0.2),
           offset: const Offset(3, 3),
           blurRadius: 6,
           spreadRadius: 0,

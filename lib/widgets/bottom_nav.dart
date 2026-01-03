@@ -18,13 +18,13 @@ class BottomNav extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.white.withOpacity(0.7),
+            color: Colors.white.withValues(alpha: 0.7),
             offset: const Offset(-4, -4),
             blurRadius: 8,
             spreadRadius: 0,
           ),
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 0.15),
             offset: const Offset(4, 4),
             blurRadius: 8,
             spreadRadius: 0,

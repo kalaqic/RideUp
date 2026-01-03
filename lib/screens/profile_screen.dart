@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../utils/app_theme.dart';
 import '../utils/auth_service.dart';
+import '../utils/subscription_service.dart';
 import '../models/models.dart';
 import '../data/mock_data.dart';
 import '../widgets/bottom_nav.dart';
 import 'map_screen.dart';
 import 'achievements_screen.dart';
 import 'login_screen.dart';
+import 'shop_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -20,6 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   final UserProfile profile = MockData.getUserProfile();
   final AuthService _authService = AuthService();
+  final SubscriptionService _subscriptionService = SubscriptionService();
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   int _selectedIndex = 2;
@@ -38,10 +41,18 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
 
     _animationController.forward();
+    
+    // Listen to subscription changes
+    _subscriptionService.addListener(_onSubscriptionChanged);
   }
-
+  
+  void _onSubscriptionChanged() {
+    setState(() {});
+  }
+  
   @override
   void dispose() {
+    _subscriptionService.removeListener(_onSubscriptionChanged);
     _animationController.dispose();
     super.dispose();
   }
@@ -116,7 +127,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             shape: BoxShape.circle,
                             gradient: LinearGradient(
                               colors: [
-                                AppTheme.primaryColor.withOpacity(0.8),
+                                AppTheme.primaryColor.withValues(alpha: 0.8),
                                 AppTheme.primaryLight,
                               ],
                             ),
@@ -146,7 +157,141 @@ class _ProfileScreenState extends State<ProfileScreen>
                             letterSpacing: 0.5,
                           ),
                         ),
+                        // Subscription status
+                        if (_subscriptionService.hasActiveSubscription) ...[
+                          const SizedBox(height: 16),
+                          // Active subscription container
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            decoration: AppTheme.neomorphicRaised(
+                              borderRadius: 12,
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.check_circle_outline,
+                                      size: 20,
+                                      color: AppTheme.success,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      'Aktivna naročnina',
+                                      style: AppTheme.bodyMedium.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: AppTheme.success,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Obnovitev: ${DateFormat('dd.MM.yyyy').format(_subscriptionService.renewalDate!)}',
+                                  style: AppTheme.bodySmall.copyWith(
+                                    color: AppTheme.textMedium,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Renewal paused info (shows for both purchase methods)
+                          if (_subscriptionService.purchasedWithPoints != null) ...[
+                            const SizedBox(height: 12),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              decoration: AppTheme.neomorphicRaised(
+                                borderRadius: 12,
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        Icons.pause_circle_outline,
+                                        size: 20,
+                                        color: AppTheme.primaryColor,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'OBNOVITEV ZAUSTAVLJENA',
+                                        style: AppTheme.bodyMedium.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: AppTheme.primaryColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Obnovitev s kartico je zaustavljena, ker ste plačali z vašim naporom in trdim delom! 🎉',
+                                    style: AppTheme.bodySmall.copyWith(
+                                      color: AppTheme.textMedium,
+                                      height: 1.4,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ],
                         const SizedBox(height: 32),
+                        // Shop button
+                        SizedBox(
+                          width: double.infinity,
+                          child: Container(
+                            decoration: AppTheme.neomorphicButton(
+                              color: AppTheme.primaryColor,
+                              borderRadius: 16,
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation, secondaryAnimation) =>
+                                          const ShopScreen(),
+                                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                        return FadeTransition(
+                                          opacity: animation,
+                                          child: child,
+                                        );
+                                      },
+                                      transitionDuration: const Duration(milliseconds: 300),
+                                    ),
+                                  );
+                                },
+                                borderRadius: BorderRadius.circular(16),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.shopping_bag, size: 20, color: Colors.white),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Trgovina',
+                                        style: AppTheme.bodyMedium.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
                         // Logout button
                         SizedBox(
                           width: double.infinity,
@@ -247,7 +392,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               Container(
                                 width: 1,
                                 height: 40,
-                                color: Colors.grey.withOpacity(0.2),
+                                color: Colors.grey.withValues(alpha: 0.2),
                               ),
                               Expanded(
                                 child: _buildStatItem(
@@ -262,7 +407,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           const SizedBox(height: 20),
                           Container(
                             height: 1,
-                            color: Colors.grey.withOpacity(0.2),
+                            color: Colors.grey.withValues(alpha: 0.2),
                           ),
                           const SizedBox(height: 20),
                           Row(
@@ -278,7 +423,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               Container(
                                 width: 1,
                                 height: 40,
-                                color: Colors.grey.withOpacity(0.2),
+                                color: Colors.grey.withValues(alpha: 0.2),
                               ),
                               Expanded(
                                 child: _buildStatItem(
@@ -356,7 +501,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         Icon(
           icon,
           size: 24,
-          color: color.withOpacity(0.8),
+          color: color.withValues(alpha: 0.8),
         ),
         const SizedBox(height: 8),
         Text(
@@ -393,7 +538,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppTheme.primaryColor.withOpacity(0.1),
+              color: AppTheme.primaryColor.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: const Icon(
@@ -443,7 +588,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppTheme.warning.withOpacity(0.1),
+                      color: AppTheme.warning.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(
@@ -499,7 +644,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               offset: const Offset(0, -2),
               blurRadius: 10,
               spreadRadius: 0,

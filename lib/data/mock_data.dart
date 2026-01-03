@@ -137,8 +137,8 @@ class MockData {
         icon: Icons.wb_sunny_outlined,
         color: const Color(0xFFFF6B9D),
         maxProgress: 10,
-        currentProgress: 7,
-        isUnlocked: false,
+        currentProgress: 10,
+        isUnlocked: true,
         points: 200,
       ),
       Achievement(
@@ -148,8 +148,8 @@ class MockData {
         icon: Icons.eco_outlined,
         color: const Color(0xFF4CAF50),
         maxProgress: 50,
-        currentProgress: 35,
-        isUnlocked: false,
+        currentProgress: 50,
+        isUnlocked: true,
         points: 500,
       ),
       Achievement(
@@ -255,16 +255,20 @@ class MockData {
   }
 
   static UserProfile getUserProfile() {
+    // For testing: Set hasActiveSubscription to true and subscriptionPurchasedWithPoints to true/false to see different states
     return UserProfile(
       name: 'Aleš Novak',
       email: 'ales.novak@email.com',
       totalRides: 42,
       totalDistance: 358.5,
-      totalPoints: 3585,
+      totalPoints: 12000, // Increased to allow purchase
       carbonSaved: 35,
       recentRides: getRecentRides(),
       achievements: getAchievements(),
       memberSince: 'oktober 2024',
+      hasActiveSubscription: true, // Set to true to test subscription display
+      subscriptionRenewalDate: DateTime.now().add(const Duration(days: 30)), // 30 days from now
+      subscriptionPurchasedWithPoints: true, // true = purchased with points, false = with achievements
     );
   }
 }

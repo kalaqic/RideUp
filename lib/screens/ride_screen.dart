@@ -240,7 +240,7 @@ class _RideScreenState extends State<RideScreen>
                 decoration: AppTheme.neomorphicRaised(borderRadius: 16),
                 child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.location_on_outlined,
                       color: AppTheme.primaryColor,
                       size: 20,

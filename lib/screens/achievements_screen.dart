@@ -144,7 +144,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                           height: 30,
                           width: 1,
                           margin: const EdgeInsets.symmetric(horizontal: 32),
-                          color: AppTheme.primaryColor.withOpacity(0.2),
+                          color: AppTheme.primaryColor.withValues(alpha: 0.2),
                         ),
                         _buildHeaderStat(
                           value: totalPoints.toString(),
@@ -236,12 +236,12 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: achievement.color.withOpacity(0.3),
+                  color: achievement.color.withValues(alpha: 0.3),
                   width: 2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: achievement.color.withOpacity(0.15),
+                    color: achievement.color.withValues(alpha: 0.15),
                     offset: const Offset(0, 4),
                     blurRadius: 12,
                     spreadRadius: 0,
@@ -260,8 +260,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                   height: 56,
                   decoration: BoxDecoration(
                     color: achievement.isUnlocked
-                        ? achievement.color.withOpacity(0.15)
-                        : Colors.grey.withOpacity(0.1),
+                        ? achievement.color.withValues(alpha: 0.15)
+                        : Colors.grey.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -320,8 +320,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                     ),
                     decoration: BoxDecoration(
                       color: achievement.isUnlocked
-                          ? AppTheme.warning.withOpacity(0.1)
-                          : Colors.grey.withOpacity(0.1),
+                          ? AppTheme.warning.withValues(alpha: 0.1)
+                          : Colors.grey.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -377,7 +377,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                   padding: EdgeInsets.zero,
                   lineHeight: 8,
                   percent: achievement.progressPercentage.clamp(0.0, 1.0),
-                  backgroundColor: Colors.grey.withOpacity(0.2),
+                  backgroundColor: Colors.grey.withValues(alpha: 0.2),
                   progressColor: achievement.isUnlocked
                       ? achievement.color
                       : Colors.grey,
@@ -406,7 +406,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               offset: const Offset(0, -2),
               blurRadius: 10,
               spreadRadius: 0,

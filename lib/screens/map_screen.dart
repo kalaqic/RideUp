@@ -78,13 +78,13 @@ class _MapScreenState extends State<MapScreen> with TickerProviderStateMixin {
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           boxShadow: [
             BoxShadow(
-              color: Colors.white.withOpacity(0.7),
+              color: Colors.white.withValues(alpha: 0.7),
               offset: const Offset(0, -4),
               blurRadius: 8,
               spreadRadius: 0,
             ),
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
+              color: Colors.black.withValues(alpha: 0.15),
               offset: const Offset(0, 4),
               blurRadius: 8,
               spreadRadius: 0,

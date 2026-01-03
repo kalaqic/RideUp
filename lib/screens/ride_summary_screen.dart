@@ -95,7 +95,7 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
                         height: 80,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppTheme.success.withOpacity(0.1),
+                          color: AppTheme.success.withValues(alpha: 0.1),
                         ),
                         child: const Icon(
                           Icons.check,
@@ -281,7 +281,7 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
