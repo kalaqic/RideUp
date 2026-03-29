@@ -10,6 +10,7 @@ import 'map_screen.dart';
 import 'achievements_screen.dart';
 import 'login_screen.dart';
 import 'shop_screen.dart';
+import 'impact_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -99,6 +100,23 @@ class _ProfileScreenState extends State<ProfileScreen>
         // Already on profile
         break;
     }
+  }
+
+  void _openImpactScreen() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const ImpactScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+        transitionDuration: const Duration(milliseconds: 300),
+      ),
+    );
   }
 
   @override
@@ -292,6 +310,41 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ),
                         ),
                         const SizedBox(height: 16),
+                        // Moj vpliv button
+                        SizedBox(
+                          width: double.infinity,
+                          child: Container(
+                            decoration: AppTheme.neomorphicButton(
+                              color: AppTheme.primaryColor,
+                              borderRadius: 16,
+                            ),
+                            child: Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                onTap: _openImpactScreen,
+                                borderRadius: BorderRadius.circular(16),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.eco, size: 20, color: Colors.white),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Moj vpliv',
+                                        style: AppTheme.bodyMedium.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
                         // Logout button
                         SizedBox(
                           width: double.infinity,
@@ -370,73 +423,97 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
                   ),
                 ),
-                // Stats grid
+                // Stats preview / impact entry
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Container(
-                      padding: const EdgeInsets.all(24),
-                      decoration: AppTheme.neomorphicRaised(borderRadius: 20),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _buildStatItem(
-                                  icon: Icons.pedal_bike,
-                                  value: profile.totalRides.toString(),
-                                  label: 'Skupno voženj',
-                                  color: AppTheme.primaryColor,
-                                ),
-                              ),
-                              Container(
-                                width: 1,
-                                height: 40,
-                                color: Colors.grey.withValues(alpha: 0.2),
-                              ),
-                              Expanded(
-                                child: _buildStatItem(
-                                  icon: Icons.route,
-                                  value: profile.totalDistance.toStringAsFixed(0),
-                                  label: 'Kilometrov',
-                                  color: AppTheme.success,
-                                ),
-                              ),
-                            ],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'TA TEDEN',
+                          style: AppTheme.titleSmall,
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Želiš videti vse svoje prispevke za planet?',
+                          style: AppTheme.bodyMedium.copyWith(
+                            color: AppTheme.textLight,
                           ),
-                          const SizedBox(height: 20),
-                          Container(
-                            height: 1,
-                            color: Colors.grey.withValues(alpha: 0.2),
+                        ),
+                        const SizedBox(height: 16),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: _openImpactScreen,
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              padding: const EdgeInsets.all(24),
+                              decoration: AppTheme.neomorphicRaised(borderRadius: 20),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: _buildStatItem(
+                                          icon: Icons.pedal_bike,
+                                          value: profile.totalRides.toString(),
+                                          label: 'Skupno voženj',
+                                          color: AppTheme.primaryColor,
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 1,
+                                        height: 40,
+                                        color: Colors.grey.withValues(alpha: 0.2),
+                                      ),
+                                      Expanded(
+                                        child: _buildStatItem(
+                                          icon: Icons.route,
+                                          value: profile.totalDistance.toStringAsFixed(0),
+                                          label: 'Kilometrov',
+                                          color: AppTheme.success,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Container(
+                                    height: 1,
+                                    color: Colors.grey.withValues(alpha: 0.2),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: _buildStatItem(
+                                          icon: Icons.stars,
+                                          value: profile.totalPoints.toString(),
+                                          label: 'Točke',
+                                          color: AppTheme.warning,
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 1,
+                                        height: 40,
+                                        color: Colors.grey.withValues(alpha: 0.2),
+                                      ),
+                                      Expanded(
+                                        child: _buildStatItem(
+                                          icon: Icons.eco,
+                                          value: '${profile.carbonSaved}kg',
+                                          label: 'Prihranjen CO₂',
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                          const SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: _buildStatItem(
-                                  icon: Icons.stars,
-                                  value: profile.totalPoints.toString(),
-                                  label: 'Točke',
-                                  color: AppTheme.warning,
-                                ),
-                              ),
-                              Container(
-                                width: 1,
-                                height: 40,
-                                color: Colors.grey.withValues(alpha: 0.2),
-                              ),
-                              Expanded(
-                                child: _buildStatItem(
-                                  icon: Icons.eco,
-                                  value: '${profile.carbonSaved}kg',
-                                  label: 'CO₂ Saved',
-                                  color: Colors.green,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -447,7 +524,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Nedavne vožnje',
                           style: AppTheme.titleSmall,
                         ),
@@ -640,8 +717,19 @@ class _ProfileScreenState extends State<ProfileScreen>
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.7,
         decoration: BoxDecoration(
-          color: Colors.white,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.lerp(Colors.white, AppTheme.primaryColor, 0.10)!,
+              Color.lerp(Colors.white, AppTheme.primaryLight, 0.06)!,
+              Colors.white,
+            ],
+          ),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+          border: Border.all(
+            color: AppTheme.primaryColor.withValues(alpha: 0.06),
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.1),
@@ -670,9 +758,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                 // Ride header
                 Text(
                   'Podrobnosti vožnje',
-                  style: AppTheme.displaySmall.copyWith(
+                  style: AppTheme.titleSmall.copyWith(
                     fontSize: 28,
-                    fontWeight: FontWeight.w500,
                     color: AppTheme.titleBlue,
                   ),
                 ),

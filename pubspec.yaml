@@ -17,11 +17,13 @@ dependencies:
   intl: ^0.18.1
   flutter_map: ^6.1.0
   latlong2: ^0.9.1
+  fl_chart: ^0.66.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true
@@ -32,3 +34,22 @@ flutter:
     - family: SimpleSerenitySerif
       fonts:
         - asset: assets/fonts/Simple Serenity Serif.ttf
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/images/logo_app_icon.png
+  remove_alpha_ios: true
+  min_sdk_android: 21
+  web:
+    generate: true
+    image_path: assets/images/logo_app_icon.png
+    background_color: "#FFFFFF"
+    theme_color: "#6B55D3"
+  windows:
+    generate: true
+    image_path: assets/images/logo_app_icon.png
+    icon_size: 256
+  macos:
+    generate: true
+    image_path: assets/images/logo_app_icon.png

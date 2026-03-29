@@ -7,6 +7,60 @@ import '../data/mock_data.dart';
 class ShopScreen extends StatelessWidget {
   const ShopScreen({super.key});
 
+  BoxDecoration _popupSurfaceDecoration() {
+    return BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color.lerp(Colors.white, AppTheme.primaryColor, 0.14)!,
+          Color.lerp(Colors.white, AppTheme.primaryLight, 0.09)!,
+          Colors.white,
+        ],
+      ),
+      borderRadius: BorderRadius.circular(24),
+      border: Border.all(
+        color: AppTheme.primaryColor.withValues(alpha: 0.12),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withValues(alpha: 0.10),
+          blurRadius: 24,
+          offset: const Offset(0, 10),
+        ),
+      ],
+    );
+  }
+
+  BoxDecoration _shopCardDecoration({
+    required double borderRadius,
+    double primaryAlpha = 0.08,
+    double lightAlpha = 0.05,
+  }) {
+    return BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color.lerp(Colors.white, AppTheme.primaryColor, primaryAlpha)!,
+          Color.lerp(Colors.white, AppTheme.primaryLight, lightAlpha)!,
+          Colors.white,
+        ],
+      ),
+      borderRadius: BorderRadius.circular(borderRadius),
+      border: Border.all(
+        color: AppTheme.primaryColor.withValues(alpha: 0.10),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: AppTheme.primaryColor.withValues(alpha: 0.08),
+          blurRadius: 22,
+          offset: const Offset(0, 10),
+        ),
+      ],
+    );
+  }
+
   bool _canPurchaseWithPoints(UserProfile profile) {
     return profile.totalPoints >= 10000;
   }
@@ -29,7 +83,7 @@ class ShopScreen extends StatelessWidget {
                 ? 'Nimate dovolj točk. Potrebujete 10.000 točk.'
                 : 'Nimate dovolj dosežkov. Potrebujete 3 odklenjena dosežka.',
           ),
-          backgroundColor: AppTheme.error,
+          backgroundColor: AppTheme.primaryDark,
         ),
       );
       return;
@@ -45,7 +99,7 @@ class ShopScreen extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.all(32),
-          decoration: AppTheme.neomorphicRaised(borderRadius: 24),
+          decoration: _popupSurfaceDecoration(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -78,9 +132,12 @@ class ShopScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.all(16),
-                  decoration: AppTheme.neomorphicFlat(
-                    borderRadius: 12,
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.82),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: AppTheme.primaryColor.withValues(alpha: 0.10),
+                    ),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -107,9 +164,12 @@ class ShopScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Container(
-                      decoration: AppTheme.neomorphicFlat(
-                        borderRadius: 16,
-                        color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.88),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: AppTheme.primaryColor.withValues(alpha: 0.10),
+                        ),
                       ),
                       child: Material(
                         color: Colors.transparent,
@@ -186,7 +246,7 @@ class ShopScreen extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.all(48),
-          decoration: AppTheme.neomorphicRaised(borderRadius: 24),
+          decoration: _popupSurfaceDecoration(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -232,7 +292,7 @@ class ShopScreen extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.all(32),
-          decoration: AppTheme.neomorphicRaised(borderRadius: 24),
+          decoration: _popupSurfaceDecoration(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -240,14 +300,24 @@ class ShopScreen extends StatelessWidget {
               Container(
                 width: 80,
                 height: 80,
-                decoration: AppTheme.neomorphicRaised(
-                  borderRadius: 40,
-                  color: Colors.white,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      AppTheme.primaryColor.withValues(alpha: 0.12),
+                      AppTheme.primaryLight.withValues(alpha: 0.10),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(40),
+                  border: Border.all(
+                    color: AppTheme.primaryColor.withValues(alpha: 0.10),
+                  ),
                 ),
                 child: const Icon(
                   Icons.celebration,
                   size: 40,
-                  color: AppTheme.success,
+                  color: AppTheme.primaryColor,
                 ),
               ),
               const SizedBox(height: 24),
@@ -275,13 +345,19 @@ class ShopScreen extends StatelessWidget {
               // Inspiring message
               Container(
                 padding: const EdgeInsets.all(20),
-                decoration: AppTheme.neomorphicFlat(borderRadius: 16),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.82),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: AppTheme.primaryColor.withValues(alpha: 0.10),
+                  ),
+                ),
                 child: Column(
                   children: [
                     const Icon(
                       Icons.eco,
                       size: 32,
-                      color: AppTheme.success,
+                      color: AppTheme.primaryColor,
                     ),
                     const SizedBox(height: 12),
                     Text(
@@ -359,7 +435,6 @@ class ShopScreen extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              // Header with back button
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
                 child: Stack(
@@ -367,13 +442,27 @@ class ShopScreen extends StatelessWidget {
                     Center(
                       child: Text(
                         'Trgovina',
-                        style: AppTheme.titleLarge.copyWith(
+                        style: AppTheme.titleMedium.copyWith(
+                          fontSize: 36,
                           color: AppTheme.titleBlue,
                         ),
                       ),
                     ),
                     Container(
-                      decoration: AppTheme.neomorphicRaised(borderRadius: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.9),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: AppTheme.primaryColor.withValues(alpha: 0.10),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.05),
+                            blurRadius: 14,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
                       child: IconButton(
                         icon: const Icon(Icons.arrow_back),
                         onPressed: () => Navigator.pop(context),
@@ -389,120 +478,135 @@ class ShopScreen extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 32),
-                        // Subscription card
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.all(24),
-                          decoration: AppTheme.neomorphicRaised(
-                            borderRadius: 20,
-                            color: Colors.white,
+                          padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
+                          decoration: _shopCardDecoration(
+                            borderRadius: 28,
+                            primaryAlpha: 0.12,
+                            lightAlpha: 0.08,
                           ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Icon(
-                                Icons.card_membership,
-                                size: 48,
-                                color: AppTheme.primaryColor,
-                              ),
-                              const SizedBox(height: 16),
-                              Text(
-                                'Mesečna naročnina',
-                                style: AppTheme.displaySmall.copyWith(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppTheme.textDark,
-                                ),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Dostop do vseh funkcionalnosti za en mesec',
-                                style: AppTheme.bodyMedium.copyWith(
-                                  color: AppTheme.textMedium,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 24),
-                              // Purchase option 1: Points
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(16),
-                                decoration: AppTheme.neomorphicFlat(
-                                  borderRadius: 16,
-                                  color: Colors.white,
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        const Icon(
-                                          Icons.stars,
-                                          size: 24,
-                                          color: AppTheme.warning,
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 64,
+                                    height: 64,
+                                    decoration: BoxDecoration(
+                                      gradient: const LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          AppTheme.primaryColor,
+                                          AppTheme.primaryLight,
+                                        ],
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppTheme.primaryColor.withValues(alpha: 0.20),
+                                          blurRadius: 20,
+                                          offset: const Offset(0, 10),
                                         ),
-                                        const SizedBox(width: 8),
+                                      ],
+                                    ),
+                                    child: const Icon(
+                                      Icons.workspace_premium_rounded,
+                                      color: Colors.white,
+                                      size: 32,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
                                         Text(
-                                          '10.000 točk',
-                                          style: AppTheme.bodyLarge.copyWith(
-                                            fontWeight: FontWeight.w600,
+                                          'Mesečna naročnina',
+                                          style: AppTheme.titleSmall.copyWith(
+                                            color: AppTheme.titleBlue,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          'Dostop do vseh funkcionalnosti za en mesec',
+                                          style: AppTheme.bodyMedium.copyWith(
+                                            color: AppTheme.textMedium,
                                           ),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Vaše točke: ${profile.totalPoints.toString()}',
-                                      style: AppTheme.bodySmall.copyWith(
-                                        color: AppTheme.textMedium,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 48,
-                                      decoration: AppTheme.neomorphicButton(
-                                        color: canPurchaseWithPoints
-                                            ? AppTheme.warning
-                                            : Colors.grey,
-                                        borderRadius: 12,
-                                      ),
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        child: InkWell(
-                                          onTap: canPurchaseWithPoints
-                                              ? () => _handlePurchase(context, profile, true)
-                                              : null,
-                                          borderRadius: BorderRadius.circular(12),
-                                          child: Center(
-                                            child: Text(
-                                              canPurchaseWithPoints
-                                                  ? 'Kupi z točkami'
-                                                  : 'Premalo točk',
-                                              style: AppTheme.bodyMedium.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 20),
+                              Wrap(
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: [
+                                  _featureChip(Icons.qr_code_scanner, 'Hitrejši dostop'),
+                                  _featureChip(Icons.emoji_events_outlined, 'Nagrade'),
+                                  _featureChip(Icons.eco_outlined, 'Moj vpliv'),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(24),
+                          decoration: _shopCardDecoration(
+                            borderRadius: 24,
+                            primaryAlpha: 0.09,
+                            lightAlpha: 0.06,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Izberite način nakupa',
+                                style: AppTheme.bodyLarge.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: AppTheme.textDark,
                                 ),
                               ),
+                              const SizedBox(height: 6),
+                              Text(
+                                'Uporabite točke ali odklenjene dosežke.',
+                                style: AppTheme.bodyMedium.copyWith(
+                                  color: AppTheme.textMedium,
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+                              _purchaseOptionCard(
+                                title: 'Nakup s točkami',
+                                subtitle: 'Potrebujete 10.000 točk za 1 mesec naročnine.',
+                                requirement: '10.000 točk',
+                                currentValue: 'Vaše točke: ${profile.totalPoints}',
+                                icon: Icons.stars_rounded,
+                                accentColor: AppTheme.primaryColor,
+                                enabled: canPurchaseWithPoints,
+                                buttonText: canPurchaseWithPoints
+                                    ? 'Kupi s točkami'
+                                    : 'Premalo točk',
+                                onTap: canPurchaseWithPoints
+                                    ? () => _handlePurchase(context, profile, true)
+                                    : null,
+                              ),
                               const SizedBox(height: 16),
-                              // Divider with OR
                               Row(
                                 children: [
                                   Expanded(
                                     child: Container(
                                       height: 1,
-                                      color: Colors.grey.withValues(alpha: 0.2),
+                                      color: AppTheme.primaryColor.withValues(alpha: 0.16),
                                     ),
                                   ),
                                   Padding(
@@ -518,78 +622,63 @@ class ShopScreen extends StatelessWidget {
                                   Expanded(
                                     child: Container(
                                       height: 1,
-                                      color: Colors.grey.withValues(alpha: 0.2),
+                                      color: AppTheme.primaryColor.withValues(alpha: 0.16),
                                     ),
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              // Purchase option 2: Achievements
+                              _purchaseOptionCard(
+                                title: 'Nakup z dosežki',
+                                subtitle: 'Zamenjajte 3 odklenjene dosežke za 1 mesec naročnine.',
+                                requirement: '3 dosežki',
+                                currentValue: 'Odklenjeni dosežki: $unlockedCount',
+                                icon: Icons.emoji_events_rounded,
+                                accentColor: AppTheme.primaryLight,
+                                enabled: canPurchaseWithAchievements,
+                                buttonText: canPurchaseWithAchievements
+                                    ? 'Kupi z dosežki'
+                                    : 'Premalo dosežkov',
+                                onTap: canPurchaseWithAchievements
+                                    ? () => _handlePurchase(context, profile, false)
+                                    : null,
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.82),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: AppTheme.primaryColor.withValues(alpha: 0.10),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
                               Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(16),
-                                decoration: AppTheme.neomorphicFlat(
-                                  borderRadius: 16,
-                                  color: Colors.white,
+                                width: 44,
+                                height: 44,
+                                decoration: BoxDecoration(
+                                  color: AppTheme.primaryColor.withValues(alpha: 0.10),
+                                  borderRadius: BorderRadius.circular(14),
                                 ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        const Icon(
-                                          Icons.emoji_events,
-                                          size: 24,
-                                          color: AppTheme.success,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          '3 dosežki',
-                                          style: AppTheme.bodyLarge.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Vaši odklenjeni dosežki: $unlockedCount',
-                                      style: AppTheme.bodySmall.copyWith(
-                                        color: AppTheme.textMedium,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 48,
-                                      decoration: AppTheme.neomorphicButton(
-                                        color: canPurchaseWithAchievements
-                                            ? AppTheme.success
-                                            : Colors.grey,
-                                        borderRadius: 12,
-                                      ),
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        child: InkWell(
-                                          onTap: canPurchaseWithAchievements
-                                              ? () => _handlePurchase(context, profile, false)
-                                              : null,
-                                          borderRadius: BorderRadius.circular(12),
-                                          child: Center(
-                                            child: Text(
-                                              canPurchaseWithAchievements
-                                                  ? 'Kupi z dosežki'
-                                                  : 'Premalo dosežkov',
-                                              style: AppTheme.bodyMedium.copyWith(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                child: const Icon(
+                                  Icons.info_outline,
+                                  color: AppTheme.primaryColor,
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Text(
+                                  'Naročnina se aktivira takoj po potrditvi nakupa.',
+                                  style: AppTheme.bodySmall.copyWith(
+                                    color: AppTheme.textMedium,
+                                    height: 1.4,
+                                  ),
                                 ),
                               ),
                             ],
@@ -604,6 +693,162 @@ class ShopScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _featureChip(IconData icon, String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.82),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: AppTheme.primaryColor.withValues(alpha: 0.08),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16, color: AppTheme.primaryColor),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: AppTheme.bodySmall.copyWith(
+              color: AppTheme.textDark,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _purchaseOptionCard({
+    required String title,
+    required String subtitle,
+    required String requirement,
+    required String currentValue,
+    required IconData icon,
+    required Color accentColor,
+    required bool enabled,
+    required String buttonText,
+    required VoidCallback? onTap,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.86),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: accentColor.withValues(alpha: 0.14),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: accentColor.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Icon(icon, color: accentColor, size: 26),
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: AppTheme.bodyLarge.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.textDark,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: AppTheme.bodySmall.copyWith(
+                        color: AppTheme.textMedium,
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            decoration: BoxDecoration(
+              color: accentColor.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  requirement,
+                  style: AppTheme.bodyMedium.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: AppTheme.textDark,
+                  ),
+                ),
+                Text(
+                  currentValue,
+                  style: AppTheme.bodySmall.copyWith(
+                    color: AppTheme.textMedium,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 14),
+          Container(
+            width: double.infinity,
+            height: 50,
+            decoration: BoxDecoration(
+              color: enabled
+                  ? accentColor
+                  : Color.lerp(Colors.white, AppTheme.primaryLight, 0.55)!,
+              borderRadius: BorderRadius.circular(14),
+              boxShadow: enabled
+                  ? [
+                      BoxShadow(
+                        color: accentColor.withValues(alpha: 0.22),
+                        blurRadius: 16,
+                        offset: const Offset(0, 8),
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(14),
+                child: Center(
+                  child: Text(
+                    buttonText,
+                    style: AppTheme.bodyMedium.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

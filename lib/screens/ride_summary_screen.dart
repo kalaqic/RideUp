@@ -84,103 +84,210 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                const SizedBox(height: 32),
-                // Title
+                const SizedBox(height: 20),
                 FadeTransition(
                   opacity: _fadeAnimation,
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppTheme.success.withValues(alpha: 0.1),
-                        ),
-                        child: const Icon(
-                          Icons.check,
-                          size: 40,
-                          color: AppTheme.success,
-                        ),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          AppTheme.primaryColor.withValues(alpha: 0.10),
+                          AppTheme.primaryLight.withValues(alpha: 0.10),
+                          Colors.white,
+                        ],
                       ),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Vožnja dokončana',
-                        style: AppTheme.titleLarge.copyWith(
-                          color: AppTheme.titleBlue,
-                        ),
+                      borderRadius: BorderRadius.circular(28),
+                      border: Border.all(
+                        color: AppTheme.primaryColor.withValues(alpha: 0.10),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Odlično delo!',
-                        style: AppTheme.bodyMedium.copyWith(
-                          color: AppTheme.textLight,
-                          letterSpacing: 1,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppTheme.primaryColor.withValues(alpha: 0.08),
+                          blurRadius: 24,
+                          offset: const Offset(0, 10),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 88,
+                          height: 88,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                AppTheme.primaryColor,
+                                AppTheme.primaryLight,
+                              ],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppTheme.primaryColor.withValues(alpha: 0.24),
+                                blurRadius: 22,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.check_rounded,
+                            size: 46,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Vožnja dokončana',
+                          style: AppTheme.titleMedium.copyWith(
+                            fontSize: 34,
+                            color: AppTheme.titleBlue,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Super vožnja! Tukaj je povzetek vašega napredka.',
+                          style: AppTheme.bodyMedium.copyWith(
+                            color: AppTheme.textMedium,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 18),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.85),
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: AppTheme.primaryColor.withValues(alpha: 0.10),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Icon(
+                                  Icons.route,
+                                  color: AppTheme.primaryColor,
+                                  size: 20,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Relacija vožnje',
+                                      style: AppTheme.caption.copyWith(
+                                        color: AppTheme.textLight,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      '${widget.ride.startStation} → ${widget.ride.endStation}',
+                                      style: AppTheme.bodyMedium.copyWith(
+                                        color: AppTheme.textDark,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 40),
-                // Stats
+                const SizedBox(height: 28),
                 Column(
-                    children: [
-                      SlideTransition(
-                        position: _slideAnimations[0],
-                        child: _buildStatCard(
-                          icon: Icons.timer_outlined,
-                          value: '${widget.ride.duration}',
-                          unit: 'min',
-                          label: 'Trajanje',
-                          color: AppTheme.primaryColor,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SlideTransition(
+                            position: _slideAnimations[0],
+                            child: _buildMetricTile(
+                              icon: Icons.timer_outlined,
+                              value: '${widget.ride.duration}',
+                              unit: 'min',
+                              label: 'Trajanje',
+                              color: AppTheme.primaryColor,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      SlideTransition(
-                        position: _slideAnimations[1],
-                        child: _buildStatCard(
-                          icon: Icons.route,
-                          value: widget.ride.distance.toStringAsFixed(1),
-                          unit: 'km',
-                          label: 'Razdalja',
-                          color: AppTheme.primaryColor,
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: SlideTransition(
+                            position: _slideAnimations[1],
+                            child: _buildMetricTile(
+                              icon: Icons.route,
+                              value: widget.ride.distance.toStringAsFixed(1),
+                              unit: 'km',
+                              label: 'Razdalja',
+                              color: const Color(0xFF0891B2),
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      SlideTransition(
-                        position: _slideAnimations[2],
-                        child: _buildStatCard(
-                          icon: Icons.stars,
-                          value: widget.ride.points.toString(),
-                          unit: 'pts',
-                          label: 'Pridobljene točke',
-                          color: AppTheme.warning,
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SlideTransition(
+                            position: _slideAnimations[2],
+                            child: _buildMetricTile(
+                              icon: Icons.stars_rounded,
+                              value: widget.ride.points.toString(),
+                              unit: 'pts',
+                              label: 'Pridobljene točke',
+                              color: AppTheme.warning,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      SlideTransition(
-                        position: _slideAnimations[3],
-                        child: _buildStatCard(
-                          icon: Icons.eco,
-                          value: carbonSaved,
-                          unit: 'kg',
-                          label: 'Prihranjeno CO₂',
-                          color: AppTheme.success,
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: SlideTransition(
+                            position: _slideAnimations[3],
+                            child: _buildMetricTile(
+                              icon: Icons.eco,
+                              value: carbonSaved,
+                              unit: 'kg',
+                              label: 'Prihranjeno CO₂',
+                              color: AppTheme.success,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 32),
-                // Buttons
                 Column(
                   children: [
                     SizedBox(
                       width: double.infinity,
                       child: Container(
-                        height: 56,
+                        height: 58,
                         decoration: AppTheme.neomorphicButton(
                           color: AppTheme.primaryColor,
-                          borderRadius: 16,
+                          borderRadius: 18,
                         ),
                         child: Material(
                           color: Colors.transparent,
@@ -201,15 +308,24 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
                                 ),
                               );
                             },
-                            borderRadius: BorderRadius.circular(16),
-                            child: Center(
-                              child: Text(
-                                'Poglej dosežke',
-                                style: AppTheme.bodyMedium.copyWith(
+                            borderRadius: BorderRadius.circular(18),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.emoji_events_outlined,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w500,
+                                  size: 20,
                                 ),
-                              ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  'Poglej dosežke',
+                                  style: AppTheme.bodyMedium.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -219,8 +335,21 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
                     SizedBox(
                       width: double.infinity,
                       child: Container(
-                        height: 56,
-                        decoration: AppTheme.neomorphicRaised(borderRadius: 16),
+                        height: 58,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                            color: AppTheme.primaryColor.withValues(alpha: 0.16),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.04),
+                              blurRadius: 16,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
                         child: Material(
                           color: Colors.transparent,
                           child: InkWell(
@@ -241,15 +370,24 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
                                 (route) => false,
                               );
                             },
-                            borderRadius: BorderRadius.circular(16),
-                            child: Center(
-                              child: Text(
-                                'Nazaj na zemljevid',
-                                style: AppTheme.bodyMedium.copyWith(
-                                  fontWeight: FontWeight.w500,
+                            borderRadius: BorderRadius.circular(18),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.map_outlined,
                                   color: AppTheme.primaryColor,
+                                  size: 20,
                                 ),
-                              ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  'Nazaj na zemljevid',
+                                  style: AppTheme.bodyMedium.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: AppTheme.primaryColor,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -265,7 +403,7 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
     );
   }
 
-  Widget _buildStatCard({
+  Widget _buildMetricTile({
     required IconData icon,
     required String value,
     required String unit,
@@ -273,16 +411,30 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
     required Color color,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      decoration: AppTheme.neomorphicRaised(borderRadius: 12),
-      child: Row(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(
+          color: color.withValues(alpha: 0.14),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: 0.10),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 48,
-            height: 48,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
+              color: color.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(
               icon,
@@ -290,37 +442,37 @@ class _RideSummaryScreenState extends State<RideSummaryScreen>
               size: 24,
             ),
           ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [
-                    Text(
-                      value,
-                      style: AppTheme.bodyLarge.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      unit,
-                      style: AppTheme.bodySmall.copyWith(
-                        color: AppTheme.textLight,
-                      ),
-                    ),
-                  ],
-                ),
-                Text(
-                  label,
-                  style: AppTheme.caption.copyWith(
-                    color: AppTheme.textLight,
+          const SizedBox(height: 18),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Flexible(
+                child: Text(
+                  value,
+                  style: AppTheme.displaySmall.copyWith(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                    color: AppTheme.textDark,
                   ),
                 ),
-              ],
+              ),
+              const SizedBox(width: 6),
+              Text(
+                unit,
+                style: AppTheme.bodySmall.copyWith(
+                  color: AppTheme.textLight,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: AppTheme.bodySmall.copyWith(
+              color: AppTheme.textMedium,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],

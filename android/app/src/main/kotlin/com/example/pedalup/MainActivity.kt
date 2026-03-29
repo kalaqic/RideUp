@@ -1,4 +1,4 @@
-package com.example.green_ride
+package com.example.pedalup
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../utils/app_theme.dart';
 import '../models/models.dart';
@@ -395,170 +396,303 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   }
 
   void _showAchievementDetails(Achievement achievement) {
-    showModalBottomSheet(
+    showGeneralDialog(
       context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.6,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              offset: const Offset(0, -2),
-              blurRadius: 10,
-              spreadRadius: 0,
-            ),
-          ],
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Handle bar
-                Container(
-                  width: 48,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: AppTheme.textMedium,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-                const SizedBox(height: 32),
-                // Achievement icon
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: achievement.color.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    achievement.icon,
-                    size: 60,
-                    color: achievement.color,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                // Achievement title
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 8,
-                  children: [
-                    Text(
-                      achievement.title,
-                      style: AppTheme.displaySmall.copyWith(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w500,
-                        color: AppTheme.titleBlue,
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (achievement.isUnlocked)
-                      Icon(
-                        Icons.verified,
-                        size: 28,
-                        color: achievement.color,
-                      ),
+      barrierLabel: 'Podrobnosti dosežka',
+      barrierDismissible: true,
+      barrierColor: Colors.transparent,
+      transitionDuration: const Duration(milliseconds: 250),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Align(
+          alignment: Alignment.bottomCenter,
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.6,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color.lerp(Colors.white, achievement.color, 0.12)!,
+                    Color.lerp(Colors.white, achievement.color, 0.06)!,
+                    Colors.white,
                   ],
                 ),
-                const SizedBox(height: 16),
-                // Achievement description
-                Text(
-                  achievement.description,
-                  style: AppTheme.bodyMedium.copyWith(
-                    color: AppTheme.textMedium,
-                  ),
-                  textAlign: TextAlign.center,
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+                border: Border.all(
+                  color: achievement.color.withValues(alpha: 0.10),
                 ),
-                const SizedBox(height: 32),
-                // Progress section
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: AppTheme.pastelLavender.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.12),
+                    offset: const Offset(0, 12),
+                    blurRadius: 28,
+                    spreadRadius: 0,
                   ),
+                ],
+              ),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(32),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Container(
+                        width: 48,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: AppTheme.textMedium,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          color: achievement.color.withValues(alpha: 0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          achievement.icon,
+                          size: 60,
+                          color: achievement.color,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Wrap(
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 8,
                         children: [
                           Text(
-                            'Napredek',
-                            style: AppTheme.bodyLarge.copyWith(
-                              fontWeight: FontWeight.w500,
+                            achievement.title,
+                            style: AppTheme.titleSmall.copyWith(
+                              fontSize: 28,
+                              color: AppTheme.titleBlue,
                             ),
+                            textAlign: TextAlign.center,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          Text(
-                            '${achievement.currentProgress}/${achievement.maxProgress}',
-                            style: AppTheme.bodyLarge.copyWith(
-                              fontWeight: FontWeight.w600,
+                          if (achievement.isUnlocked)
+                            Icon(
+                              Icons.verified,
+                              size: 28,
                               color: achievement.color,
                             ),
-                          ),
                         ],
                       ),
-                      const SizedBox(height: 12),
-                      LinearProgressIndicator(
-                        value: achievement.progressPercentage,
-                        backgroundColor: Colors.grey.withValues(alpha: 0.2),
-                        valueColor: AlwaysStoppedAnimation<Color>(achievement.color),
-                        borderRadius: BorderRadius.circular(8),
-                        minHeight: 8,
-                      ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 16),
                       Text(
-                        achievement.isUnlocked 
-                          ? 'Dosežek dokončan!' 
-                          : '${(achievement.progressPercentage * 100).toInt()}% dokončano',
-                        style: AppTheme.bodySmall.copyWith(
+                        achievement.description,
+                        style: AppTheme.bodyMedium.copyWith(
                           color: AppTheme.textMedium,
                         ),
+                        textAlign: TextAlign.center,
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                // Points earned
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: achievement.isUnlocked 
-                      ? AppTheme.success.withValues(alpha: 0.1)
-                      : Colors.grey.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.stars,
-                        size: 20,
-                        color: achievement.isUnlocked ? AppTheme.success : Colors.grey,
+                      const SizedBox(height: 32),
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: AppTheme.pastelLavender.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Napredek',
+                                  style: AppTheme.bodyLarge.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Text(
+                                  '${achievement.currentProgress}/${achievement.maxProgress}',
+                                  style: AppTheme.bodyLarge.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: achievement.color,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            LinearProgressIndicator(
+                              value: achievement.progressPercentage,
+                              backgroundColor: Colors.grey.withValues(alpha: 0.2),
+                              valueColor: AlwaysStoppedAnimation<Color>(achievement.color),
+                              borderRadius: BorderRadius.circular(8),
+                              minHeight: 8,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              achievement.isUnlocked
+                                  ? 'Dosežek dokončan!'
+                                  : '${(achievement.progressPercentage * 100).toInt()}% dokončano',
+                              style: AppTheme.bodySmall.copyWith(
+                                color: AppTheme.textMedium,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '${achievement.points} ${achievement.isUnlocked ? "Točk pridobljenih" : "Točk na voljo"}',
-                        style: AppTheme.bodyMedium.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: achievement.isUnlocked ? AppTheme.success : Colors.grey,
+                      const SizedBox(height: 24),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: achievement.isUnlocked
+                              ? AppTheme.success.withValues(alpha: 0.1)
+                              : Colors.grey.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.stars,
+                              size: 20,
+                              color: achievement.isUnlocked ? AppTheme.success : Colors.grey,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              '${achievement.points} ${achievement.isUnlocked ? "Točk pridobljenih" : "Točk na voljo"}',
+                              style: AppTheme.bodyMedium.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: achievement.isUnlocked ? AppTheme.success : Colors.grey,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final blurFade = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOut,
+        );
+        final popupAnimation = CurvedAnimation(
+          parent: animation,
+          curve: const Interval(0.18, 1, curve: Curves.easeOutCubic),
+        );
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: FadeTransition(
+                opacity: blurFade,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => Navigator.of(context).pop(),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+                    child: Container(
+                      color: Colors.black.withValues(alpha: 0.22),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            _DismissibleAchievementPopup(
+              onDismiss: () => Navigator.of(context).pop(),
+              child: FadeTransition(
+                opacity: popupAnimation,
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0, 0.14),
+                    end: Offset.zero,
+                  ).animate(popupAnimation),
+                  child: child,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _DismissibleAchievementPopup extends StatefulWidget {
+  const _DismissibleAchievementPopup({
+    required this.child,
+    required this.onDismiss,
+  });
+
+  final Widget child;
+  final VoidCallback onDismiss;
+
+  @override
+  State<_DismissibleAchievementPopup> createState() =>
+      _DismissibleAchievementPopupState();
+}
+
+class _DismissibleAchievementPopupState
+    extends State<_DismissibleAchievementPopup> {
+  double _dragOffset = 0;
+  bool _isDragging = false;
+
+  void _onDragStart() {
+    setState(() {
+      _isDragging = true;
+    });
+  }
+
+  void _onDragUpdate(double delta) {
+    setState(() {
+      _dragOffset = (_dragOffset + delta).clamp(0.0, 260.0);
+    });
+  }
+
+  void _resetDrag() {
+    setState(() {
+      _dragOffset = 0;
+      _isDragging = false;
+    });
+  }
+
+  void _onDragEnd(double? velocity) {
+    final shouldDismiss =
+        _dragOffset > 120 || velocity != null && velocity > 900;
+    if (shouldDismiss) {
+      widget.onDismiss();
+      return;
+    }
+    _resetDrag();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: _isDragging ? 0 : 180),
+      curve: Curves.easeOutCubic,
+      transform: Matrix4.translationValues(0, _dragOffset, 0),
+      child: Stack(
+        children: [
+          widget.child,
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 72,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onVerticalDragStart: (_) => _onDragStart(),
+              onVerticalDragUpdate: (details) => _onDragUpdate(details.delta.dy),
+              onVerticalDragEnd: (details) => _onDragEnd(details.primaryVelocity),
+              onVerticalDragCancel: _resetDrag,
+              child: const SizedBox.expand(),
+            ),
+          ),
+        ],
       ),
     );
   }

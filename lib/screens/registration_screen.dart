@@ -141,16 +141,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     decoration: AppTheme.neomorphicRaised(borderRadius: 16),
                     child: TextFormField(
                       controller: _nameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Ime',
                         hintText: 'Vaše ime',
-                        prefixIcon: const Icon(Icons.person_outlined),
+                        prefixIcon: Icon(Icons.person_outlined),
                         filled: true,
                         fillColor: Colors.transparent,
                         border: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                       ),
                       style: AppTheme.bodyMedium,
                       validator: (value) {
@@ -168,16 +168,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     child: TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'E-pošta',
                         hintText: 'vas@email.com',
-                        prefixIcon: const Icon(Icons.email_outlined),
+                        prefixIcon: Icon(Icons.email_outlined),
                         filled: true,
                         fillColor: Colors.transparent,
                         border: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                       ),
                       style: AppTheme.bodyMedium,
                       validator: (value) {
@@ -197,16 +197,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     decoration: AppTheme.neomorphicRaised(borderRadius: 16),
                     child: DropdownButtonFormField<String>(
                       value: _selectedCity,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Mesto',
                         hintText: 'Izberite mesto',
-                        prefixIcon: const Icon(Icons.location_city_outlined),
+                        prefixIcon: Icon(Icons.location_city_outlined),
                         filled: true,
                         fillColor: Colors.transparent,
                         border: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                       ),
                     items: _availableCities.map((city) {
                       return DropdownMenuItem<String>(

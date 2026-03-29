@@ -4,13 +4,17 @@ import '../models/models.dart';
 
 class StationCard extends StatelessWidget {
   final BikeStation station;
+  final int availableBikes;
   final bool isSelected;
+  final String? reservationText;
   final VoidCallback onTap;
 
   const StationCard({
     super.key,
     required this.station,
+    required this.availableBikes,
     required this.isSelected,
+    this.reservationText,
     required this.onTap,
   });
 
@@ -48,16 +52,48 @@ class StationCard extends StatelessWidget {
                     color: AppTheme.textLight,
                   ),
                 ),
+                if (reservationText != null) ...[
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryColor.withValues(alpha: 0.10),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.timer_outlined,
+                          size: 14,
+                          color: AppTheme.primaryColor,
+                        ),
+                        const SizedBox(width: 6),
+                        Flexible(
+                          child: Text(
+                            reservationText!,
+                            style: AppTheme.caption.copyWith(
+                              color: AppTheme.primaryColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ],
             ),
             Row(
               children: [
                 _buildIconStat(
                   icon: Icons.pedal_bike,
-                  value: station.availableBikes.toString(),
-                  color: station.availableBikes > 5
+                  value: availableBikes.toString(),
+                  color: availableBikes > 5
                       ? AppTheme.success
-                      : station.availableBikes > 0
+                      : availableBikes > 0
                           ? AppTheme.warning
                           : AppTheme.error,
                 ),

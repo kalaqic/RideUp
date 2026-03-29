@@ -117,6 +117,36 @@ class MockData {
     ];
   }
 
+  /// All rides for impact analytics (includes recent + generated history).
+  static List<Ride> getAllRidesForAnalytics() {
+    final now = DateTime.now();
+    final recent = getRecentRides();
+    final List<Ride> all = [...recent];
+    // Generate rides for the past year for heatmap, streaks, and period stats
+    int id = 100;
+    for (int d = 10; d <= 365; d += 2) {
+      if (d <= 14 || (d >= 20 && d <= 40) || (d >= 60 && d <= 90) || d >= 200) {
+        final day = now.subtract(Duration(days: d));
+        // Vary rides per day: 1–4 rides so heatmap shows multiple intensity levels
+        final ridesThisDay = 1 + (d % 5) % 4; // 1, 2, 3, or 4 rides
+        for (int r = 0; r < ridesThisDay; r++) {
+          final hour = 8 + (d + r) % 10;
+          all.add(Ride(
+            id: '${id++}',
+            startTime: day.subtract(Duration(hours: hour)),
+            endTime: day.subtract(Duration(hours: hour - 1, minutes: 25 + (d % 20))),
+            distance: 2.0 + (d % 15) * 0.3,
+            duration: 18 + (d % 25),
+            points: 20 + (d % 40),
+            startStation: 'Glavni trg',
+            endStation: 'Železniška postaja',
+          ));
+        }
+      }
+    }
+    return all;
+  }
+
   static List<Achievement> getAchievements() {
     return [
       Achievement(
@@ -257,8 +287,8 @@ class MockData {
   static UserProfile getUserProfile() {
     // For testing: Set hasActiveSubscription to true and subscriptionPurchasedWithPoints to true/false to see different states
     return UserProfile(
-      name: 'Aleš Novak',
-      email: 'ales.novak@email.com',
+      name: 'David Kalabić',
+      email: 'david@gmail.com',
       totalRides: 42,
       totalDistance: 358.5,
       totalPoints: 12000, // Increased to allow purchase

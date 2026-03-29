@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/app_theme.dart';
+import '../utils/reservation_service.dart';
 import '../models/models.dart';
 import 'ride_screen.dart';
 
@@ -52,6 +53,10 @@ class _QRScanScreenState extends State<QRScanScreen>
     // Simulate scanning delay
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
+        final reservationService = ReservationService();
+        if (reservationService.isReservedForStation(widget.station.id)) {
+          reservationService.cancelReservation();
+        }
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
@@ -147,7 +152,7 @@ class _QRScanScreenState extends State<QRScanScreen>
                                   decoration: BoxDecoration(
                                     border: Border(
                                       top: isTop
-                                          ? BorderSide(
+                                          ? const BorderSide(
                                               color: AppTheme.primaryColor,
                                               width: 3,
                                             )
@@ -189,14 +194,14 @@ class _QRScanScreenState extends State<QRScanScreen>
                                     child: Container(
                                       height: 2,
                                       decoration: BoxDecoration(
-                                        gradient: LinearGradient(
+                                        gradient: const LinearGradient(
                                           colors: [
                                             Colors.transparent,
                                             AppTheme.primaryColor,
                                             AppTheme.primaryColor,
                                             Colors.transparent,
                                           ],
-                                          stops: const [0.0, 0.2, 0.8, 1.0],
+                                          stops: [0.0, 0.2, 0.8, 1.0],
                                         ),
                                         boxShadow: [
                                           BoxShadow(
@@ -235,7 +240,7 @@ class _QRScanScreenState extends State<QRScanScreen>
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 48,
                                     height: 48,
                                     child: CircularProgressIndicator(
