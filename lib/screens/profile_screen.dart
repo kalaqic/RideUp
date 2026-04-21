@@ -42,15 +42,15 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
 
     _animationController.forward();
-    
+
     // Listen to subscription changes
     _subscriptionService.addListener(_onSubscriptionChanged);
   }
-  
+
   void _onSubscriptionChanged() {
     setState(() {});
   }
-  
+
   @override
   void dispose() {
     _subscriptionService.removeListener(_onSubscriptionChanged);
@@ -70,7 +70,8 @@ class _ProfileScreenState extends State<ProfileScreen>
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 const MapScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
               return FadeTransition(
                 opacity: animation,
                 child: child,
@@ -86,7 +87,8 @@ class _ProfileScreenState extends State<ProfileScreen>
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 const AchievementsScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
               return FadeTransition(
                 opacity: animation,
                 child: child,
@@ -180,7 +182,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                           const SizedBox(height: 16),
                           // Active subscription container
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 12),
                             decoration: AppTheme.neomorphicRaised(
                               borderRadius: 12,
                               color: Colors.white,
@@ -217,10 +220,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ),
                           ),
                           // Renewal paused info (shows for both purchase methods)
-                          if (_subscriptionService.purchasedWithPoints != null) ...[
+                          if (_subscriptionService.purchasedWithPoints !=
+                              null) ...[
                             const SizedBox(height: 12),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
                               decoration: AppTheme.neomorphicRaised(
                                 borderRadius: 12,
                                 color: Colors.white,
@@ -275,25 +280,30 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   Navigator.push(
                                     context,
                                     PageRouteBuilder(
-                                      pageBuilder: (context, animation, secondaryAnimation) =>
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
                                           const ShopScreen(),
-                                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
                                         return FadeTransition(
                                           opacity: animation,
                                           child: child,
                                         );
                                       },
-                                      transitionDuration: const Duration(milliseconds: 300),
+                                      transitionDuration:
+                                          const Duration(milliseconds: 300),
                                     ),
                                   );
                                 },
                                 borderRadius: BorderRadius.circular(16),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 14, horizontal: 24),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Icon(Icons.shopping_bag, size: 20, color: Colors.white),
+                                      const Icon(Icons.shopping_bag,
+                                          size: 20, color: Colors.white),
                                       const SizedBox(width: 8),
                                       Text(
                                         'Trgovina',
@@ -324,11 +334,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 onTap: _openImpactScreen,
                                 borderRadius: BorderRadius.circular(16),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 14, horizontal: 24),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Icon(Icons.eco, size: 20, color: Colors.white),
+                                      const Icon(Icons.eco,
+                                          size: 20, color: Colors.white),
                                       const SizedBox(width: 8),
                                       Text(
                                         'Moj vpliv',
@@ -380,15 +392,20 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         Navigator.pushAndRemoveUntil(
                                           context,
                                           PageRouteBuilder(
-                                            pageBuilder: (context, animation, secondaryAnimation) =>
+                                            pageBuilder: (context, animation,
+                                                    secondaryAnimation) =>
                                                 const LoginScreen(),
-                                            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                            transitionsBuilder: (context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child) {
                                               return FadeTransition(
                                                 opacity: animation,
                                                 child: child,
                                               );
                                             },
-                                            transitionDuration: const Duration(milliseconds: 300),
+                                            transitionDuration: const Duration(
+                                                milliseconds: 300),
                                           ),
                                           (route) => false,
                                         );
@@ -449,7 +466,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                             borderRadius: BorderRadius.circular(20),
                             child: Container(
                               padding: const EdgeInsets.all(24),
-                              decoration: AppTheme.neomorphicRaised(borderRadius: 20),
+                              decoration:
+                                  AppTheme.neomorphicRaised(borderRadius: 20),
                               child: Column(
                                 children: [
                                   Row(
@@ -465,12 +483,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       Container(
                                         width: 1,
                                         height: 40,
-                                        color: Colors.grey.withValues(alpha: 0.2),
+                                        color:
+                                            Colors.grey.withValues(alpha: 0.2),
                                       ),
                                       Expanded(
                                         child: _buildStatItem(
                                           icon: Icons.route,
-                                          value: profile.totalDistance.toStringAsFixed(0),
+                                          value: profile.totalDistance
+                                              .toStringAsFixed(0),
                                           label: 'Kilometrov',
                                           color: AppTheme.success,
                                         ),
@@ -496,7 +516,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                                       Container(
                                         width: 1,
                                         height: 40,
-                                        color: Colors.grey.withValues(alpha: 0.2),
+                                        color:
+                                            Colors.grey.withValues(alpha: 0.2),
                                       ),
                                       Expanded(
                                         child: _buildStatItem(
@@ -602,105 +623,105 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   Widget _buildRideCard(Ride ride) {
     final dateFormat = DateFormat('MMM d, h:mm a');
-    
+
     return GestureDetector(
       onTap: () => _showRideDetails(ride),
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
         decoration: AppTheme.neomorphicRaised(borderRadius: 12),
-      child: Row(
-        children: [
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: AppTheme.primaryColor.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: AppTheme.primaryColor.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.directions_bike,
+                color: AppTheme.primaryColor,
+                size: 24,
+              ),
             ),
-            child: const Icon(
-              Icons.directions_bike,
-              color: AppTheme.primaryColor,
-              size: 24,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${ride.startStation} → ${ride.endStation}',
-                  style: AppTheme.bodyMedium.copyWith(
-                    fontWeight: FontWeight.w500,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${ride.startStation} → ${ride.endStation}',
+                    style: AppTheme.bodyMedium.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                  const SizedBox(height: 4),
+                  Text(
+                    dateFormat.format(ride.startTime),
+                    style: AppTheme.caption.copyWith(
+                      color: AppTheme.textLight,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      '${ride.distance.toStringAsFixed(1)} km',
+                      style: AppTheme.bodySmall.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.warning.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            size: 12,
+                            color: AppTheme.warning,
+                          ),
+                          const SizedBox(width: 2),
+                          Text(
+                            '+${ride.points}',
+                            style: AppTheme.caption.copyWith(
+                              color: AppTheme.warning,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  dateFormat.format(ride.startTime),
+                  '${ride.duration} min',
                   style: AppTheme.caption.copyWith(
                     color: AppTheme.textLight,
                   ),
                 ),
               ],
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    '${ride.distance.toStringAsFixed(1)} km',
-                    style: AppTheme.bodySmall.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppTheme.warning.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          size: 12,
-                          color: AppTheme.warning,
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          '+${ride.points}',
-                          style: AppTheme.caption.copyWith(
-                            color: AppTheme.warning,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '${ride.duration} min',
-                style: AppTheme.caption.copyWith(
-                  color: AppTheme.textLight,
-                ),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 
@@ -708,8 +729,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     final dateFormat = DateFormat('MMM d, h:mm a');
     final durationHours = ride.duration / 60;
     final avgSpeed = ride.distance / durationHours;
-    final co2Saved = (ride.distance * 0.21).toStringAsFixed(1); // Approx 0.21kg CO2 per km
-    
+    final co2Saved =
+        (ride.distance * 0.21).toStringAsFixed(1); // Approx 0.21kg CO2 per km
+
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,

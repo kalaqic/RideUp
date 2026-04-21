@@ -134,7 +134,8 @@ class MockData {
           all.add(Ride(
             id: '${id++}',
             startTime: day.subtract(Duration(hours: hour)),
-            endTime: day.subtract(Duration(hours: hour - 1, minutes: 25 + (d % 20))),
+            endTime:
+                day.subtract(Duration(hours: hour - 1, minutes: 25 + (d % 20))),
             distance: 2.0 + (d % 15) * 0.3,
             duration: 18 + (d % 25),
             points: 20 + (d % 40),
@@ -297,8 +298,10 @@ class MockData {
       achievements: getAchievements(),
       memberSince: 'oktober 2024',
       hasActiveSubscription: true, // Set to true to test subscription display
-      subscriptionRenewalDate: DateTime.now().add(const Duration(days: 30)), // 30 days from now
-      subscriptionPurchasedWithPoints: true, // true = purchased with points, false = with achievements
+      subscriptionRenewalDate:
+          DateTime.now().add(const Duration(days: 30)), // 30 days from now
+      subscriptionPurchasedWithPoints:
+          true, // true = purchased with points, false = with achievements
     );
   }
 }

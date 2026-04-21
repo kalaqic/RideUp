@@ -6,23 +6,23 @@ class AppTheme {
   static const Color primaryColor = Color(0xFF6B55D3);
   static const Color primaryLight = Color(0xFF9B7FFF);
   static const Color primaryDark = Color(0xFF5035E0);
-  
+
   // Pastel Background Colors
   static const Color pastelPink = Color(0xFFFFBBD0);
   static const Color pastelPeach = Color(0xFFFFE4B8);
   static const Color pastelLavender = Color(0xFFE8DFFF);
-  
+
   // Text Colors
   static const Color textDark = Color(0xFF1A1A1A);
   static const Color textMedium = Color(0xFF666666);
   static const Color textLight = Color(0xFF999999);
   static const Color titleBlue = Color(0xFF6B55D3);
-  
+
   // Utility Colors
   static const Color success = Color(0xFF4CAF50);
   static const Color warning = Color(0xFFFF9800);
   static const Color error = Color(0xFFE91E63);
-  
+
   // Gradient Background
   static LinearGradient backgroundGradient = LinearGradient(
     begin: Alignment.topLeft,
@@ -35,10 +35,10 @@ class AppTheme {
     ],
     stops: const [0.0, 0.3, 0.7, 1.0],
   );
-  
+
   // Background color - subtle pink/white gradient
   static const Color backgroundColor = Color(0xFFFFF5F8);
-  
+
   static RadialGradient radialGradient = RadialGradient(
     center: const Alignment(0.7, -0.6),
     radius: 2,
@@ -50,7 +50,7 @@ class AppTheme {
     ],
     stops: const [0.0, 0.3, 0.7, 1.0],
   );
-  
+
   // Neomorphic Box Decorations
   static BoxDecoration neomorphicRaised({
     double borderRadius = 16,
@@ -76,7 +76,7 @@ class AppTheme {
       ],
     );
   }
-  
+
   static BoxDecoration neomorphicPressed({
     double borderRadius = 16,
     Color? color,
@@ -101,7 +101,7 @@ class AppTheme {
       ],
     );
   }
-  
+
   static BoxDecoration neomorphicFlat({
     double borderRadius = 16,
     Color? color,
@@ -126,7 +126,7 @@ class AppTheme {
       ],
     );
   }
-  
+
   // Neomorphic button decoration for colored buttons
   static BoxDecoration neomorphicButton({
     required Color color,
@@ -166,57 +166,57 @@ class AppTheme {
       ],
     );
   }
-  
-  // Text Styles - Using clean secondary font (Inter) for body text
-  static TextStyle displayLarge = GoogleFonts.inter(
+
+  // Text styles - Poppins for all non-title text
+  static TextStyle displayLarge = GoogleFonts.poppins(
     fontSize: 48,
     fontWeight: FontWeight.w300,
     letterSpacing: 0,
     height: 1.2,
   );
-  
-  static TextStyle displayMedium = GoogleFonts.inter(
+
+  static TextStyle displayMedium = GoogleFonts.poppins(
     fontSize: 36,
     fontWeight: FontWeight.w300,
     letterSpacing: 0,
     height: 1.3,
   );
-  
-  static TextStyle displaySmall = GoogleFonts.inter(
+
+  static TextStyle displaySmall = GoogleFonts.poppins(
     fontSize: 28,
     fontWeight: FontWeight.w300,
     letterSpacing: 0,
     height: 1.3,
   );
-  
-  static TextStyle bodyLarge = GoogleFonts.inter(
+
+  static TextStyle bodyLarge = GoogleFonts.poppins(
     fontSize: 18,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     height: 1.5,
   );
-  
-  static TextStyle bodyMedium = GoogleFonts.inter(
+
+  static TextStyle bodyMedium = GoogleFonts.poppins(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     height: 1.5,
   );
-  
-  static TextStyle bodySmall = GoogleFonts.inter(
+
+  static TextStyle bodySmall = GoogleFonts.poppins(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     height: 1.5,
   );
-  
-  static TextStyle caption = GoogleFonts.inter(
+
+  static TextStyle caption = GoogleFonts.poppins(
     fontSize: 12,
     fontWeight: FontWeight.w400,
     letterSpacing: 0,
     height: 1.4,
   );
-  
+
   // Title Styles using Custom Font
   static const TextStyle titleLarge = TextStyle(
     fontFamily: 'SimpleSerenitySerif',
@@ -225,7 +225,7 @@ class AppTheme {
     letterSpacing: 2,
     height: 1.2,
   );
-  
+
   static const TextStyle titleMedium = TextStyle(
     fontFamily: 'SimpleSerenitySerif',
     fontSize: 32,
@@ -233,7 +233,7 @@ class AppTheme {
     letterSpacing: 1.5,
     height: 1.3,
   );
-  
+
   static const TextStyle titleSmall = TextStyle(
     fontFamily: 'SimpleSerenitySerif',
     fontSize: 24,

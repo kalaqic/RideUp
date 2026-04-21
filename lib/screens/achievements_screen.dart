@@ -72,7 +72,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 const MapScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
               return FadeTransition(
                 opacity: animation,
                 child: child,
@@ -91,7 +92,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
                 const ProfileScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
               return FadeTransition(
                 opacity: animation,
                 child: child,
@@ -165,7 +167,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                     final achievement = achievements[index];
                     return ScaleTransition(
                       scale: _animations[index],
-                      child: _buildAchievementCard(achievement),
+                      child: _buildAchievementCard(achievement, index),
                     );
                   },
                 ),
@@ -227,324 +229,158 @@ class _AchievementsScreenState extends State<AchievementsScreen>
     );
   }
 
-  Widget _buildAchievementCard(Achievement achievement) {
-    return GestureDetector(
-      onTap: () => _showAchievementDetails(achievement),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
-        decoration: achievement.isUnlocked
-            ? BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: achievement.color.withValues(alpha: 0.3),
-                  width: 2,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: achievement.color.withValues(alpha: 0.15),
-                    offset: const Offset(0, 4),
-                    blurRadius: 12,
-                    spreadRadius: 0,
-                  ),
-                ],
-              )
-            : AppTheme.neomorphicFlat(),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: achievement.isUnlocked
-                        ? achievement.color.withValues(alpha: 0.15)
-                        : Colors.grey.withValues(alpha: 0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    achievement.icon,
-                    size: 28,
-                    color: achievement.isUnlocked
-                        ? achievement.color
-                        : Colors.grey,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              achievement.title,
-                              style: AppTheme.bodyLarge.copyWith(
-                                fontWeight: FontWeight.w500,
-                                color: achievement.isUnlocked
-                                    ? AppTheme.textDark
-                                    : AppTheme.textLight,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          if (achievement.isUnlocked) ...[
-                            const SizedBox(width: 8),
-                            Icon(
-                              Icons.verified,
-                              size: 20,
-                              color: achievement.color,
-                            ),
-                          ],
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        achievement.description,
-                        style: AppTheme.bodySmall.copyWith(
-                          color: AppTheme.textLight,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (achievement.points > 0)
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+  Widget _buildGlassSurface({
+    required Widget child,
+    required BorderRadius borderRadius,
+    EdgeInsetsGeometry? margin,
+    Color tint = Colors.white,
+    double tintAlpha = 0.24,
+    double sigma = 8,
+    Gradient? gradient,
+    Border? border,
+    List<BoxShadow>? boxShadow,
+  }) {
+    return Container(
+      margin: margin,
+      child: ClipRRect(
+        borderRadius: borderRadius,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+          child: Container(
+            decoration: BoxDecoration(
+              color:
+                  gradient == null ? tint.withValues(alpha: tintAlpha) : null,
+              gradient: gradient,
+              borderRadius: borderRadius,
+              border: border,
+              boxShadow: boxShadow ??
+                  [
+                    BoxShadow(
+                      color: Colors.white.withValues(alpha: 0.6),
+                      offset: const Offset(-4, -4),
+                      blurRadius: 10,
                     ),
-                    decoration: BoxDecoration(
-                      color: achievement.isUnlocked
-                          ? AppTheme.warning.withValues(alpha: 0.1)
-                          : Colors.grey.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.star,
-                          size: 16,
-                          color: achievement.isUnlocked
-                              ? AppTheme.warning
-                              : Colors.grey,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          achievement.points.toString(),
-                          style: AppTheme.caption.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: achievement.isUnlocked
-                                ? AppTheme.warning
-                                : Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // Progress bar
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Napredek',
-                      style: AppTheme.caption.copyWith(
-                        color: AppTheme.textLight,
-                      ),
-                    ),
-                    Text(
-                      '${achievement.currentProgress} / ${achievement.maxProgress}',
-                      style: AppTheme.caption.copyWith(
-                        color: AppTheme.textLight,
-                        fontWeight: FontWeight.w500,
-                      ),
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.08),
+                      offset: const Offset(6, 6),
+                      blurRadius: 14,
                     ),
                   ],
-                ),
-                const SizedBox(height: 8),
-                LinearPercentIndicator(
-                  padding: EdgeInsets.zero,
-                  lineHeight: 8,
-                  percent: achievement.progressPercentage.clamp(0.0, 1.0),
-                  backgroundColor: Colors.grey.withValues(alpha: 0.2),
-                  progressColor: achievement.isUnlocked
-                      ? achievement.color
-                      : Colors.grey,
-                  barRadius: const Radius.circular(4),
-                  animation: true,
-                  animationDuration: 1000,
-                ),
-              ],
             ),
-          ],
-        ),
+            child: child,
+          ),
         ),
       ),
     );
   }
 
-  void _showAchievementDetails(Achievement achievement) {
-    showGeneralDialog(
-      context: context,
-      barrierLabel: 'Podrobnosti dosežka',
-      barrierDismissible: true,
-      barrierColor: Colors.transparent,
-      transitionDuration: const Duration(milliseconds: 250),
-      pageBuilder: (context, animation, secondaryAnimation) {
-        return Align(
-          alignment: Alignment.bottomCenter,
-          child: Material(
-            color: Colors.transparent,
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color.lerp(Colors.white, achievement.color, 0.12)!,
-                    Color.lerp(Colors.white, achievement.color, 0.06)!,
-                    Colors.white,
-                  ],
-                ),
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-                border: Border.all(
-                  color: achievement.color.withValues(alpha: 0.10),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.12),
-                    offset: const Offset(0, 12),
-                    blurRadius: 28,
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 48,
-                        height: 4,
-                        decoration: BoxDecoration(
-                          color: AppTheme.textMedium,
-                          borderRadius: BorderRadius.circular(2),
+  Widget _buildAchievementCard(Achievement achievement, int index) {
+    final isUnlocked = achievement.isUnlocked;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => _showAchievementDetails(index),
+        borderRadius: BorderRadius.circular(20),
+        child: _buildGlassSurface(
+          margin: const EdgeInsets.only(bottom: 16),
+          borderRadius: BorderRadius.circular(20),
+          tint: achievement.color,
+          tintAlpha: isUnlocked ? 0.04 : 0.07,
+          sigma: 9,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.white.withValues(alpha: 0.5),
+              offset: const Offset(-3, -3),
+              blurRadius: 8,
+            ),
+            BoxShadow(
+              color: isUnlocked
+                  ? achievement.color.withValues(alpha: 0.1)
+                  : Colors.black.withValues(alpha: 0.07),
+              offset: const Offset(5, 6),
+              blurRadius: 14,
+            ),
+          ],
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: isUnlocked
+                              ? [
+                                  achievement.color.withValues(alpha: 0.22),
+                                  achievement.color.withValues(alpha: 0.1),
+                                ]
+                              : [
+                                  Colors.grey.withValues(alpha: 0.18),
+                                  Colors.grey.withValues(alpha: 0.08),
+                                ],
                         ),
+                        shape: BoxShape.circle,
                       ),
-                      const SizedBox(height: 32),
-                      Container(
-                        width: 120,
-                        height: 120,
-                        decoration: BoxDecoration(
-                          color: achievement.color.withValues(alpha: 0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          achievement.icon,
-                          size: 60,
-                          color: achievement.color,
-                        ),
+                      child: Icon(
+                        achievement.icon,
+                        size: 28,
+                        color: isUnlocked ? achievement.color : Colors.grey,
                       ),
-                      const SizedBox(height: 24),
-                      Wrap(
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 8,
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            achievement.title,
-                            style: AppTheme.titleSmall.copyWith(
-                              fontSize: 28,
-                              color: AppTheme.titleBlue,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          if (achievement.isUnlocked)
-                            Icon(
-                              Icons.verified,
-                              size: 28,
-                              color: achievement.color,
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        achievement.description,
-                        style: AppTheme.bodyMedium.copyWith(
-                          color: AppTheme.textMedium,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 32),
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: AppTheme.pastelLavender.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Napredek',
-                                  style: AppTheme.bodyLarge.copyWith(
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Text(
-                                  '${achievement.currentProgress}/${achievement.maxProgress}',
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  achievement.title,
                                   style: AppTheme.bodyLarge.copyWith(
                                     fontWeight: FontWeight.w600,
-                                    color: achievement.color,
+                                    color: isUnlocked
+                                        ? AppTheme.textDark
+                                        : AppTheme.textMedium,
                                   ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              if (isUnlocked) ...[
+                                const SizedBox(width: 8),
+                                Icon(
+                                  Icons.verified_rounded,
+                                  size: 20,
+                                  color: achievement.color,
                                 ),
                               ],
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            achievement.description,
+                            style: AppTheme.bodySmall.copyWith(
+                              color: AppTheme.textLight,
                             ),
-                            const SizedBox(height: 12),
-                            LinearProgressIndicator(
-                              value: achievement.progressPercentage,
-                              backgroundColor: Colors.grey.withValues(alpha: 0.2),
-                              valueColor: AlwaysStoppedAnimation<Color>(achievement.color),
-                              borderRadius: BorderRadius.circular(8),
-                              minHeight: 8,
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              achievement.isUnlocked
-                                  ? 'Dosežek dokončan!'
-                                  : '${(achievement.progressPercentage * 100).toInt()}% dokončano',
-                              style: AppTheme.bodySmall.copyWith(
-                                color: AppTheme.textMedium,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 24),
+                    ),
+                    if (achievement.points > 0)
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
-                          color: achievement.isUnlocked
-                              ? AppTheme.success.withValues(alpha: 0.1)
+                          color: isUnlocked
+                              ? AppTheme.warning.withValues(alpha: 0.12)
                               : Colors.grey.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -552,27 +388,228 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              Icons.stars,
-                              size: 20,
-                              color: achievement.isUnlocked ? AppTheme.success : Colors.grey,
+                              Icons.star_rounded,
+                              size: 16,
+                              color:
+                                  isUnlocked ? AppTheme.warning : Colors.grey,
                             ),
-                            const SizedBox(width: 8),
+                            const SizedBox(width: 4),
                             Text(
-                              '${achievement.points} ${achievement.isUnlocked ? "Točk pridobljenih" : "Točk na voljo"}',
-                              style: AppTheme.bodyMedium.copyWith(
-                                fontWeight: FontWeight.w500,
-                                color: achievement.isUnlocked ? AppTheme.success : Colors.grey,
+                              achievement.points.toString(),
+                              style: AppTheme.caption.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color:
+                                    isUnlocked ? AppTheme.warning : Colors.grey,
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Napredek',
+                          style: AppTheme.caption.copyWith(
+                            color: AppTheme.textLight,
+                          ),
+                        ),
+                        Text(
+                          '${achievement.currentProgress} / ${achievement.maxProgress}',
+                          style: AppTheme.caption.copyWith(
+                            color: AppTheme.textLight,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    LinearPercentIndicator(
+                      padding: EdgeInsets.zero,
+                      lineHeight: 9,
+                      percent: achievement.progressPercentage.clamp(0.0, 1.0),
+                      backgroundColor: Colors.grey.withValues(alpha: 0.16),
+                      progressColor:
+                          isUnlocked ? achievement.color : Colors.grey,
+                      barRadius: const Radius.circular(8),
+                      animation: true,
+                      animationDuration: 900,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showAchievementDetails(int initialIndex) async {
+    final pageController = PageController(initialPage: initialIndex);
+    final currentIndex = ValueNotifier<int>(initialIndex);
+    await showGeneralDialog(
+      context: context,
+      barrierLabel: 'Podrobnosti dosežka',
+      barrierDismissible: true,
+      barrierColor: Colors.black.withValues(alpha: 0.22),
+      transitionDuration: const Duration(milliseconds: 250),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return ValueListenableBuilder<int>(
+          valueListenable: currentIndex,
+          builder: (context, index, _) {
+            return Center(
+              child: Material(
+                color: Colors.transparent,
+                child: SafeArea(
+                  minimum:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onHorizontalDragEnd: (details) {
+                      final velocity = details.primaryVelocity ?? 0;
+                      if (velocity < -250 &&
+                          currentIndex.value < achievements.length - 1) {
+                        pageController.nextPage(
+                          duration: const Duration(milliseconds: 320),
+                          curve: Curves.easeInOutCubic,
+                        );
+                      } else if (velocity > 250 && currentIndex.value > 0) {
+                        pageController.previousPage(
+                          duration: const Duration(milliseconds: 320),
+                          curve: Curves.easeInOutCubic,
+                        );
+                      }
+                    },
+                    child: SizedBox(
+                      width: 380,
+                      height: MediaQuery.of(context).size.height * 0.56,
+                      child: PageView.builder(
+                        controller: pageController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        onPageChanged: (value) => currentIndex.value = value,
+                        itemCount: achievements.length,
+                        itemBuilder: (context, pageIndex) {
+                          final pageAchievement = achievements[pageIndex];
+                          final pageUnlocked = pageAchievement.isUnlocked;
+                          return _buildGlassSurface(
+                            borderRadius: BorderRadius.circular(32),
+                            tintAlpha: 0.98,
+                            sigma: 12,
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.white.withValues(alpha: 0.992),
+                                Colors.white.withValues(alpha: 0.986),
+                                pageAchievement.color
+                                    .withValues(alpha: 0.00005),
+                              ],
+                              stops: const [0.0, 0.62, 1.0],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withValues(alpha: 0.45),
+                                offset: const Offset(-4, -4),
+                                blurRadius: 10,
+                              ),
+                              BoxShadow(
+                                color: pageUnlocked
+                                    ? pageAchievement.color
+                                        .withValues(alpha: 0.05)
+                                    : Colors.white.withValues(alpha: 0.2),
+                                offset: const Offset(6, 8),
+                                blurRadius: 18,
+                              ),
+                            ],
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * 0.6,
+                              ),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        24, 10, 24, 8),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          icon: const Icon(Icons.close_rounded),
+                                          color: AppTheme.textDark,
+                                          splashRadius: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  if (achievements.length > 1)
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      child: Text(
+                                        'Povlecite levo/desno za druge dosežke',
+                                        style: AppTheme.caption.copyWith(
+                                          color: AppTheme.textLight,
+                                        ),
+                                      ),
+                                    ),
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          24, 6, 24, 20),
+                                      child: _buildAchievementDetailsBody(
+                                          pageAchievement),
+                                    ),
+                                  ),
+                                  if (achievements.length > 1)
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 12),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: List.generate(
+                                            achievements.length, (dotIndex) {
+                                          final active = dotIndex == index;
+                                          return AnimatedContainer(
+                                            duration: const Duration(
+                                                milliseconds: 180),
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 3),
+                                            width: active ? 18 : 6,
+                                            height: 6,
+                                            decoration: BoxDecoration(
+                                              color: active
+                                                  ? pageAchievement.color
+                                                  : AppTheme.textLight
+                                                      .withValues(alpha: 0.35),
+                                              borderRadius:
+                                                  BorderRadius.circular(999),
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
       transitionBuilder: (context, animation, secondaryAnimation, child) {
@@ -580,9 +617,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           parent: animation,
           curve: Curves.easeOut,
         );
-        final popupAnimation = CurvedAnimation(
+        final dialogAnimation = CurvedAnimation(
           parent: animation,
-          curve: const Interval(0.18, 1, curve: Curves.easeOutCubic),
+          curve: const Interval(0.1, 1, curve: Curves.easeOutCubic),
         );
         return Stack(
           children: [
@@ -601,95 +638,220 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 ),
               ),
             ),
-            _DismissibleAchievementPopup(
-              onDismiss: () => Navigator.of(context).pop(),
-              child: FadeTransition(
-                opacity: popupAnimation,
-                child: SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(0, 0.14),
-                    end: Offset.zero,
-                  ).animate(popupAnimation),
-                  child: child,
+            FadeTransition(
+              opacity: dialogAnimation,
+              child: ScaleTransition(
+                scale: Tween<double>(begin: 0.96, end: 1.0).animate(
+                  CurvedAnimation(
+                    parent: dialogAnimation,
+                    curve: Curves.easeOutBack,
+                  ),
                 ),
+                child: child,
               ),
             ),
           ],
         );
       },
     );
-  }
-}
-
-class _DismissibleAchievementPopup extends StatefulWidget {
-  const _DismissibleAchievementPopup({
-    required this.child,
-    required this.onDismiss,
-  });
-
-  final Widget child;
-  final VoidCallback onDismiss;
-
-  @override
-  State<_DismissibleAchievementPopup> createState() =>
-      _DismissibleAchievementPopupState();
-}
-
-class _DismissibleAchievementPopupState
-    extends State<_DismissibleAchievementPopup> {
-  double _dragOffset = 0;
-  bool _isDragging = false;
-
-  void _onDragStart() {
-    setState(() {
-      _isDragging = true;
-    });
+    pageController.dispose();
+    currentIndex.dispose();
   }
 
-  void _onDragUpdate(double delta) {
-    setState(() {
-      _dragOffset = (_dragOffset + delta).clamp(0.0, 260.0);
-    });
-  }
-
-  void _resetDrag() {
-    setState(() {
-      _dragOffset = 0;
-      _isDragging = false;
-    });
-  }
-
-  void _onDragEnd(double? velocity) {
-    final shouldDismiss =
-        _dragOffset > 120 || velocity != null && velocity > 900;
-    if (shouldDismiss) {
-      widget.onDismiss();
-      return;
+  double _achievementCo2SavedKg(Achievement achievement) {
+    final text =
+        '${achievement.title} ${achievement.description}'.toLowerCase();
+    final isCo2Achievement = text.contains('co2') || text.contains('co₂');
+    if (isCo2Achievement) {
+      return achievement.currentProgress.toDouble();
     }
-    _resetDrag();
+    // Fallback estimate for non-CO2 achievements.
+    return achievement.currentProgress * 0.15;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: _isDragging ? 0 : 180),
-      curve: Curves.easeOutCubic,
-      transform: Matrix4.translationValues(0, _dragOffset, 0),
-      child: Stack(
+  Widget _buildAchievementDetailsBody(Achievement achievement) {
+    final isUnlocked = achievement.isUnlocked;
+    final co2SavedKg = _achievementCo2SavedKg(achievement);
+    final percent =
+        (achievement.progressPercentage * 100).clamp(0, 100).toInt();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  width: 84,
+                  height: 84,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        achievement.color.withValues(alpha: 0.2),
+                        achievement.color.withValues(alpha: 0.08),
+                      ],
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    achievement.icon,
+                    size: 42,
+                    color: achievement.color,
+                  ),
+                ),
+                Positioned(
+                  bottom: -2,
+                  right: -2,
+                  child: Container(
+                    width: 24,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: achievement.color.withValues(alpha: 0.18),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      isUnlocked ? Icons.check_rounded : Icons.lock_rounded,
+                      size: 16,
+                      color: achievement.color,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    achievement.title,
+                    style: AppTheme.bodyLarge.copyWith(
+                      fontSize: 21,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.textDark,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    achievement.description,
+                    style: AppTheme.bodyMedium.copyWith(
+                      color: AppTheme.textMedium,
+                      height: 1.35,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        _buildGlassSurface(
+          borderRadius: BorderRadius.circular(20),
+          tint: Colors.transparent,
+          tintAlpha: 0.0,
+          sigma: 5,
+          boxShadow: const [],
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                LinearProgressIndicator(
+                  value: achievement.progressPercentage.clamp(0.0, 1.0),
+                  valueColor: AlwaysStoppedAnimation<Color>(achievement.color),
+                  borderRadius: BorderRadius.circular(8),
+                  minHeight: 10,
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${achievement.currentProgress}/${achievement.maxProgress}',
+                      style: AppTheme.bodyLarge.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.textDark,
+                      ),
+                    ),
+                    Text(
+                      '$percent%',
+                      style: AppTheme.bodyLarge.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.textDark,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  isUnlocked ? 'Dosežek dokončan!' : 'Nadaljuj, skoraj si tam.',
+                  style: AppTheme.bodySmall.copyWith(
+                    color: AppTheme.textMedium,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 14),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            _buildMetaChip(
+              icon: Icons.stars_rounded,
+              text:
+                  '${achievement.points} ${isUnlocked ? "Točk pridobljenih" : "Točk na voljo"}',
+              color: achievement.color,
+            ),
+            _buildMetaChip(
+              icon: Icons.eco_rounded,
+              text: '${co2SavedKg.toStringAsFixed(1)} kg CO₂',
+              color: AppTheme.textMedium,
+            ),
+            _buildMetaChip(
+              icon: isUnlocked ? Icons.check_rounded : Icons.lock_rounded,
+              text: isUnlocked
+                  ? 'Odklenjeno'
+                  : achievement.currentProgress > 0
+                      ? 'V procesu'
+                      : 'Ni se začeto',
+              color: AppTheme.textMedium,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMetaChip({
+    required IconData icon,
+    required String text,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.85),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          widget.child,
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 72,
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onVerticalDragStart: (_) => _onDragStart(),
-              onVerticalDragUpdate: (details) => _onDragUpdate(details.delta.dy),
-              onVerticalDragEnd: (details) => _onDragEnd(details.primaryVelocity),
-              onVerticalDragCancel: _resetDrag,
-              child: const SizedBox.expand(),
+          Icon(icon, size: 16, color: color),
+          const SizedBox(width: 6),
+          Text(
+            text,
+            style: AppTheme.caption.copyWith(
+              color: color,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ],
